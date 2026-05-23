@@ -251,7 +251,7 @@
       position: relative;
       aspect-ratio: 16/7;
       overflow: hidden;
-      background: #000;
+      background: #111;
     }
 
     .video-mockup iframe {
@@ -265,6 +265,48 @@
       min-height: 100%;
       pointer-events: none;
       border: none;
+    }
+
+    .video-placeholder {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: linear-gradient(135deg, #1c1c1a 0%, #111110 100%);
+    }
+
+    .video-placeholder-icon {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--yellow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-placeholder-icon::after {
+      content: '';
+      border-left: 16px solid var(--yellow);
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      margin-left: 4px;
+    }
+
+    .video-placeholder span {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    @media (max-width: 768px) {
+      .video-mockup { aspect-ratio: 16/9; }
+      .video-mockup iframe { display: none; }
+      .video-placeholder { display: flex; }
     }
 
     .video-overlay {
@@ -457,6 +499,10 @@
             allowfullscreen
             title="Drohnenvideo Dachsanierung"
           ></iframe>
+          <div class="video-placeholder">
+            <div class="video-placeholder-icon"></div>
+            <span>Video läuft auf Desktop</span>
+          </div>
           <div class="video-overlay">
             <div class="video-headline">Zimmerei Schulze · Heiningen</div>
             <button class="video-cta">Jetzt anfragen</button>
