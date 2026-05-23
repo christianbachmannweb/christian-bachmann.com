@@ -249,44 +249,23 @@
     .video-mockup {
       margin-top: 56px;
       position: relative;
-      background: var(--dark-3);
-      border: 1px solid var(--dark-4);
       aspect-ratio: 16/7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
+      background: #000;
     }
 
-    .video-mockup::before {
-      content: '';
+    .video-mockup iframe {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--dark-4) 0%, var(--dark-2) 100%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 177.78vh;
+      height: 56.25vw;
+      min-width: 100%;
+      min-height: 100%;
+      pointer-events: none;
+      border: none;
     }
-
-    .video-mockup-content { position: relative; text-align: center; }
-
-    .video-icon {
-      width: 56px;
-      height: 56px;
-      border: 2px solid var(--yellow);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-
-    .video-icon::after {
-      content: '';
-      border-left: 18px solid var(--yellow);
-      border-top: 11px solid transparent;
-      border-bottom: 11px solid transparent;
-      margin-left: 4px;
-    }
-
-    .video-label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); }
 
     .video-overlay {
       position: absolute;
@@ -472,14 +451,21 @@
         </div>
 
         <div class="video-mockup">
-          <div class="video-mockup-content">
-            <div class="video-icon"></div>
-            <div class="video-label">Drohnenvideo · Dachsanierung</div>
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/ZsRMm8Xdn6M?autoplay=1&mute=1&loop=1&playlist=ZsRMm8Xdn6M&controls=0&rel=0&modestbranding=1&playsinline=1"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+            title="Drohnenvideo Dachsanierung"
+          ></iframe>
           <div class="video-overlay">
             <div class="video-headline">Zimmerei Schulze · Heiningen</div>
             <button class="video-cta">Jetzt anfragen</button>
           </div>
+        </div>
+
+        <div style="margin-top:16px;padding:16px 20px;background:var(--yellow-dim);border:1px solid rgba(255,254,0,0.15);">
+          <span style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--yellow);">Idee für die echte Webseite — </span>
+          <span style="font-size:14px;color:var(--light);">Lukas' Drohnenaufnahmen könnten genau so als vollflächiges Hero-Video direkt beim Öffnen der Seite laufen — stumm, automatisch, im Hintergrund. Der erste Eindruck: das fertige Dach aus der Luft. Kein Stock-Foto, keine Grafik — echte Arbeit.</span>
         </div>
       </div>
     </section>
