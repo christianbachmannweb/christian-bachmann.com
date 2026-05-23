@@ -1,0 +1,649 @@
+---
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holzbau Schulze – Webseiten-Konzept</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Holzbau Schulze",
+    "description": "Zimmerei aus Heiningen – Dachsanierung, Dachdämmung, Holzfassaden und Dachfenster für die Region Göppingen.",
+    "url": "https://www.holzbau-schulze.de",
+    "telephone": "+4915222950536",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Hofstraße 1",
+      "addressLocality": "Heiningen",
+      "postalCode": "73092",
+      "addressCountry": "DE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.6630637,
+      "longitude": 9.647369
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "12"
+    },
+    "sameAs": ["https://maps.google.com/?cid=16126699474751242048"]
+  }
+  </script>
+
+  <style>
+    /* ── GATE ── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0f0f0e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Libre Franklin', sans-serif;
+      padding: 32px;
+    }
+
+    #gate.hidden { display: none; }
+
+    .gate-dot {
+      width: 8px;
+      height: 8px;
+      background: #fffe00;
+      border-radius: 50%;
+      margin-bottom: 40px;
+    }
+
+    .gate-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #6b6b64;
+      margin-bottom: 32px;
+    }
+
+    .gate-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .gate-input {
+      background: #1c1c1a;
+      border: 1px solid #2a2a27;
+      color: #f0ede4;
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 15px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .gate-input:focus { border-color: #fffe00; }
+    .gate-input::placeholder { color: #3a3a36; }
+
+    .gate-btn {
+      background: #fffe00;
+      color: #111110;
+      font-family: 'Libre Franklin', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .gate-error {
+      font-size: 12px;
+      color: rgba(255, 80, 80, 0.8);
+      text-align: center;
+      display: none;
+    }
+
+    .gate-error.visible { display: block; }
+
+    /* ── STYLEGUIDE STYLES ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow: #fffe00;
+      --yellow-dim: rgba(255, 254, 0, 0.12);
+      --dark: #111110;
+      --dark-2: #1c1c1a;
+      --dark-3: #2a2a27;
+      --dark-4: #3a3a36;
+      --mid: #6b6b64;
+      --light: #c8c8bc;
+      --cream: #f0ede4;
+      --white: #ffffff;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Libre Franklin', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+    section { padding: 80px 0; border-bottom: 1px solid var(--dark-3); }
+    section:last-child { border-bottom: none; }
+
+    .label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    p { color: var(--light); max-width: 640px; }
+    p + p { margin-top: 12px; }
+
+    header {
+      background: var(--dark-2);
+      border-bottom: 3px solid var(--yellow);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .logo-mark { display: flex; align-items: center; gap: 12px; }
+
+    .logo-square {
+      width: 36px;
+      height: 36px;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-square span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--dark);
+      text-transform: uppercase;
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .header-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+
+    .hero { padding: 100px 0 80px; background: var(--dark-2); border-bottom: 1px solid var(--dark-3); }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9vw, 96px);
+      font-weight: 800;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .hero-title em { font-style: normal; color: var(--yellow); }
+
+    .hero-sub { font-size: 18px; font-weight: 300; color: var(--light); max-width: 520px; line-height: 1.7; margin-bottom: 48px; }
+
+    .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; }
+
+    .hero-meta-item span { display: block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; }
+    .hero-meta-item strong { font-size: 14px; font-weight: 600; color: var(--cream); }
+
+    .video-mockup {
+      margin-top: 56px;
+      position: relative;
+      background: var(--dark-3);
+      border: 1px solid var(--dark-4);
+      aspect-ratio: 16/7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .video-mockup::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--dark-4) 0%, var(--dark-2) 100%);
+    }
+
+    .video-mockup-content { position: relative; text-align: center; }
+
+    .video-icon {
+      width: 56px;
+      height: 56px;
+      border: 2px solid var(--yellow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .video-icon::after {
+      content: '';
+      border-left: 18px solid var(--yellow);
+      border-top: 11px solid transparent;
+      border-bottom: 11px solid transparent;
+      margin-left: 4px;
+    }
+
+    .video-label { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); }
+
+    .video-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 32px 40px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .video-headline { font-family: var(--font-display); font-size: 28px; font-weight: 700; text-transform: uppercase; color: var(--white); }
+
+    .video-cta {
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-top: 32px; }
+    .color-chip { border: 1px solid var(--dark-3); overflow: hidden; }
+    .color-swatch { height: 80px; }
+    .color-info { padding: 12px 14px; background: var(--dark-2); }
+    .color-name { font-size: 12px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .color-hex { font-size: 11px; color: var(--mid); font-family: monospace; }
+    .color-role { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow); margin-top: 4px; }
+
+    .type-samples { margin-top: 32px; display: flex; flex-direction: column; gap: 32px; }
+    .type-sample { padding: 32px; background: var(--dark-2); border: 1px solid var(--dark-3); }
+    .type-meta { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+    .type-display { font-family: var(--font-display); font-size: 64px; font-weight: 800; text-transform: uppercase; line-height: 1; color: var(--white); }
+    .type-h1 { font-family: var(--font-display); font-size: 42px; font-weight: 700; text-transform: uppercase; color: var(--white); }
+    .type-h2 { font-family: var(--font-display); font-size: 28px; font-weight: 600; text-transform: uppercase; color: var(--white); }
+    .type-body { font-family: var(--font-body); font-size: 16px; font-weight: 400; line-height: 1.7; color: var(--light); }
+    .type-label { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--yellow); }
+
+    .taglines { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+
+    .tagline-option {
+      padding: 24px 28px;
+      background: var(--dark-2);
+      border: 1px solid var(--dark-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .tagline-option.preferred { border-color: var(--yellow); background: var(--yellow-dim); }
+    .tagline-text { font-family: var(--font-display); font-size: 26px; font-weight: 700; text-transform: uppercase; color: var(--white); }
+    .tagline-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; white-space: nowrap; }
+    .tagline-badge.yes { background: var(--yellow); color: var(--dark); }
+    .tagline-badge.alt { border: 1px solid var(--dark-4); color: var(--mid); }
+
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+    @media (max-width: 640px) { .why-grid { grid-template-columns: 1fr; } }
+    .why-card { padding: 28px; background: var(--dark-2); border: 1px solid var(--dark-3); }
+    .why-card.highlight { border-color: var(--yellow); }
+    .why-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--white); margin-bottom: 8px; }
+    .why-text { font-size: 14px; line-height: 1.6; color: var(--light); max-width: none; }
+
+    .vs-divider { margin: 32px 0 16px; display: flex; align-items: center; gap: 16px; }
+    .vs-divider::before, .vs-divider::after { content: ''; flex: 1; height: 1px; background: var(--dark-3); }
+    .vs-text { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); }
+
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .compare-cell { padding: 16px 20px; font-size: 13px; line-height: 1.5; }
+    .compare-cell.bad { background: rgba(255,80,80,0.06); border: 1px solid rgba(255,80,80,0.15); color: var(--mid); }
+    .compare-cell.good { background: var(--yellow-dim); border: 1px solid rgba(255,254,0,0.2); color: var(--cream); }
+    .compare-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .compare-cell.bad .compare-label { color: rgba(255,80,80,0.6); }
+    .compare-cell.good .compare-label { color: var(--yellow); }
+
+    .phases { margin-top: 40px; display: flex; flex-direction: column; gap: 0; }
+    .phase-item { display: grid; grid-template-columns: 80px 1fr; gap: 0; border: 1px solid var(--dark-3); margin-bottom: -1px; }
+    .phase-num { background: var(--dark-3); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 16px; border-right: 1px solid var(--dark-4); }
+    .phase-num-text { font-family: var(--font-display); font-size: 32px; font-weight: 800; color: var(--dark-4); line-height: 1; }
+    .phase-num-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); margin-top: 4px; }
+    .phase-item.active .phase-num { background: var(--yellow-dim); border-right-color: rgba(255,254,0,0.2); }
+    .phase-item.active .phase-num-text { color: var(--yellow); }
+    .phase-body { padding: 24px 28px; background: var(--dark-2); }
+    .phase-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--white); margin-bottom: 6px; }
+    .phase-desc { font-size: 14px; color: var(--light); line-height: 1.6; max-width: none; }
+    .phase-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .phase-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--dark-4); color: var(--mid); }
+    .phase-tag.yellow { border-color: rgba(255,254,0,0.3); color: var(--yellow); }
+
+    .seo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 32px; }
+    .seo-item { padding: 20px; background: var(--dark-2); border: 1px solid var(--dark-3); }
+    .seo-check { font-size: 12px; color: var(--yellow); font-weight: 700; margin-bottom: 6px; }
+    .seo-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .seo-desc { font-size: 12px; color: var(--mid); line-height: 1.5; max-width: none; }
+
+    .component-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; align-items: flex-start; }
+    .btn-primary { background: var(--yellow); color: var(--dark); font-family: var(--font-body); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 28px; border: none; cursor: pointer; display: inline-block; }
+    .btn-secondary { background: transparent; color: var(--yellow); font-family: var(--font-body); font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 28px; border: 2px solid var(--yellow); cursor: pointer; display: inline-block; }
+    .btn-ghost { background: transparent; color: var(--light); font-family: var(--font-body); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 13px 28px; border: 1px solid var(--dark-4); cursor: pointer; display: inline-block; }
+
+    .quote-card { margin-top: 32px; padding: 32px; background: var(--dark-2); border-left: 3px solid var(--yellow); max-width: 600px; }
+    .quote-text { font-size: 16px; font-style: italic; color: var(--cream); line-height: 1.7; margin-bottom: 16px; }
+    .quote-author { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow); }
+
+    footer { padding: 40px 0; background: var(--dark-2); border-top: 1px solid var(--dark-3); }
+    .footer-inner { max-width: 960px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-text { font-size: 12px; color: var(--mid); }
+    .footer-note { font-size: 11px; color: var(--dark-4); text-align: right; }
+  </style>
+</head>
+<body>
+
+  <!-- PASSWORD GATE -->
+  <div id="gate">
+    <div class="gate-dot"></div>
+    <div class="gate-title">Holzbau Schulze · Webseiten-Konzept</div>
+    <form class="gate-form" id="gate-form">
+      <input
+        class="gate-input"
+        type="password"
+        id="pw-input"
+        placeholder="Passwort eingeben"
+        autocomplete="current-password"
+      />
+      <button class="gate-btn" type="submit">Zugang</button>
+      <div class="gate-error" id="gate-error">Falsches Passwort</div>
+    </form>
+  </div>
+
+  <!-- CONTENT (shown after correct password) -->
+  <div id="content">
+
+    <header>
+      <div class="header-inner">
+        <div class="logo-mark">
+          <div class="logo-square"><span>HS</span></div>
+          <div class="logo-text">Holzbau Schulze</div>
+        </div>
+        <div class="header-badge">Webseiten-Konzept · Entwurf</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <div class="hero-eyebrow">Webseiten-Konzept für Holzbau Schulze · Heiningen</div>
+        <h1 class="hero-title">Ehrlich<br>beraten.<br><em>Sauber</em><br>gebaut.</h1>
+        <p class="hero-sub">
+          Eine neue Webseite die zeigt, wofür Lukas Schulze steht:
+          handwerkliche Qualität, ehrliche Beratung und Zuverlässigkeit,
+          auf die man sich verlassen kann.
+        </p>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><span>Kunde</span><strong>Lukas Schulze</strong></div>
+          <div class="hero-meta-item"><span>Region</span><strong>Heiningen / Göppingen</strong></div>
+          <div class="hero-meta-item"><span>Technologie</span><strong>Astro + TailwindCSS</strong></div>
+          <div class="hero-meta-item"><span>Status</span><strong>Konzeptphase</strong></div>
+        </div>
+        <div class="video-mockup">
+          <div class="video-mockup-content">
+            <div class="video-icon"></div>
+            <div class="video-label">Drohnenvideo · Dachsanierung</div>
+          </div>
+          <div class="video-overlay">
+            <div class="video-headline">Zimmerei Schulze · Heiningen</div>
+            <button class="video-cta">Jetzt anfragen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">01 · Farbpalette</div>
+        <h2>Farben</h2>
+        <p>Signalgelb bleibt als starkes Erkennungsmerkmal erhalten — aber gezielt eingesetzt, nicht überall. Das Dunkle schafft Tiefe und lässt die Fotos und Videos wirken.</p>
+        <div class="color-grid">
+          <div class="color-chip"><div class="color-swatch" style="background:#fffe00;"></div><div class="color-info"><div class="color-name">Signalgelb</div><div class="color-hex">#fffe00</div><div class="color-role">Primary Accent</div></div></div>
+          <div class="color-chip"><div class="color-swatch" style="background:#111110;"></div><div class="color-info"><div class="color-name">Tiefschwarz</div><div class="color-hex">#111110</div><div class="color-role">Background</div></div></div>
+          <div class="color-chip"><div class="color-swatch" style="background:#1c1c1a;"></div><div class="color-info"><div class="color-name">Anthrazit</div><div class="color-hex">#1c1c1a</div><div class="color-role">Surface</div></div></div>
+          <div class="color-chip"><div class="color-swatch" style="background:#f0ede4; border-top: 1px solid #2a2a27;"></div><div class="color-info"><div class="color-name">Cremeweiß</div><div class="color-hex">#f0ede4</div><div class="color-role">Text auf Dunkel</div></div></div>
+          <div class="color-chip"><div class="color-swatch" style="background:#c8c8bc;"></div><div class="color-info"><div class="color-name">Hellgrau</div><div class="color-hex">#c8c8bc</div><div class="color-role">Text Secondary</div></div></div>
+          <div class="color-chip"><div class="color-swatch" style="background:#6b6b64;"></div><div class="color-info"><div class="color-name">Mittelgrau</div><div class="color-hex">#6b6b64</div><div class="color-role">Muted / Meta</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">02 · Typografie</div>
+        <h2>Schriften</h2>
+        <p>Zwei Schriften — eine für Kraft, eine für Lesbarkeit. Barlow Condensed für Überschriften: stark, kompakt, handwerklich. Libre Franklin für Fließtext: klar und gut lesbar.</p>
+        <div class="type-samples">
+          <div class="type-sample"><div class="type-meta">Display · Barlow Condensed 800</div><div class="type-display">Holzbau<br><span style="color:var(--yellow)">Schulze</span></div></div>
+          <div class="type-sample"><div class="type-meta">H1 · Barlow Condensed 700</div><div class="type-h1">Dachsanierung in Heiningen</div></div>
+          <div class="type-sample"><div class="type-meta">H2 · Barlow Condensed 600</div><div class="type-h2">Unsere Leistungen im Überblick</div></div>
+          <div class="type-sample"><div class="type-meta">Body · Libre Franklin 400</div><div class="type-body">Wir sanieren Ihr Dach sauber, termingerecht und ohne versteckte Kosten. Von der ersten Beratung bis zum letzten Dachziegel sind wir für Sie da — persönlich, ehrlich und mit dem Anspruch, dass jeder Handgriff sitzt.</div></div>
+          <div class="type-sample"><div class="type-meta">Label · Libre Franklin 600</div><div class="type-label">Dachsanierung · Heiningen · Zimmerer</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">03 · Tonalität & Botschaft</div>
+        <h2>Was die Seite sagen soll</h2>
+        <p>Aus den Kundenbewertungen kommt immer wieder dasselbe: Lukas ist ehrlich, gründlich und stellt den Kunden in den Mittelpunkt. Das ist seine stärkste Waffe — und das muss die Webseite ausdrücken.</p>
+        <div class="taglines">
+          <div class="tagline-option preferred"><div class="tagline-text">Ehrlich beraten. Sauber gebaut.</div><div class="tagline-badge yes">Empfehlung</div></div>
+          <div class="tagline-option"><div class="tagline-text">Handwerk dem man vertrauen kann.</div><div class="tagline-badge alt">Alternative</div></div>
+          <div class="tagline-option"><div class="tagline-text">Jeder Handgriff sitzt.</div><div class="tagline-badge alt">Alternative</div></div>
+          <div class="tagline-option"><div class="tagline-text">Ihr Dach. Meine Verantwortung.</div><div class="tagline-badge alt">Alternative</div></div>
+        </div>
+        <div class="quote-card" style="margin-top:40px">
+          <div class="quote-text">„Wir hatten das erste Mal wirklich das Gefühl, dass es um uns ging und nicht den größtmöglichen Profit heraus zu schlagen."</div>
+          <div class="quote-author">Google-Bewertung · Heiningen</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">04 · Komponenten</div>
+        <h2>Buttons & Elemente</h2>
+        <p>Klare Hierarchie: ein primärer Call-to-Action (Gelb), ein sekundärer (Outline), und ein dezenter Ghost-Button.</p>
+        <div class="component-row">
+          <button class="btn-primary">Jetzt anfragen</button>
+          <button class="btn-secondary">Mehr erfahren</button>
+          <button class="btn-ghost">Referenzen ansehen</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">05 · Warum kein WordPress</div>
+        <h2>Warum eigener Code<br>statt WordPress?</h2>
+        <p>WordPress ist für viele gut genug. Für Lukas ist es besser, auf eine moderne, schlanke Lösung zu setzen — die er selbst nicht pflegen muss, weil ich das übernehme.</p>
+        <div class="vs-divider"><span class="vs-text">WordPress vs. Astro + eigener Server</span></div>
+        <div class="compare-row">
+          <div class="compare-cell bad"><div class="compare-label">WordPress</div>Monatliche Plugin-Kosten (SEO, Sicherheit, Cache)<br>Regelmäßige Updates nötig — sonst Sicherheitslücken<br>Langsam wenn nicht optimiert<br>Hosting bei Drittanbieter — kein voller Zugriff<br>Anfällig für Hacks wenn nicht gepflegt</div>
+          <div class="compare-cell good"><div class="compare-label">Astro + eigener Server</div>Einmalige Erstellung, keine laufenden Tool-Kosten<br>Kein Update-Stress — statische Dateien, nichts zu hacken<br>Extrem schnell — PageSpeed 95+<br>Lukas besitzt den Server, die Domain, alles<br>Ich übernehme Änderungen — Lukas muss nichts selbst machen</div>
+        </div>
+        <div class="why-grid" style="margin-top:24px">
+          <div class="why-card highlight"><div class="why-title">Was Lukas selbst macht</div><div class="why-text">Nichts — er braucht keinen Zugang, kein Passwort, keine Schulung. Wenn er eine Änderung will, schreibt er mir. Ich setze es um. Fertig.</div></div>
+          <div class="why-card"><div class="why-title">Was ich übernehme</div><div class="why-text">Änderungen an Texten, Bildern, Leistungen. Technische Updates. SEO-Anpassungen. Neue Seiten. Alles läuft über mich.</div></div>
+          <div class="why-card"><div class="why-title">Kosten Server</div><div class="why-text">Ca. 4–6 € / Monat für einen eigenen Hetzner-Server. Alles gehört Lukas. Keine Abhängigkeit von Dritten.</div></div>
+          <div class="why-card"><div class="why-title">PageSpeed & SEO</div><div class="why-text">Statische Astro-Seiten laden in unter einer Sekunde. Google liebt das. Besseres Ranking ohne Extra-Aufwand.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">06 · Projektverlauf</div>
+        <h2>Wie wir vorgehen</h2>
+        <p>Fünf Phasen vom ersten Gespräch bis zur fertigen, eigenständigen Webseite. Transparent, ohne versteckte Schritte.</p>
+        <div class="phases" style="margin-top:32px">
+          <div class="phase-item active">
+            <div class="phase-num"><div class="phase-num-text">1</div><div class="phase-num-label">Phase</div></div>
+            <div class="phase-body"><div class="phase-title">Verstehen</div><div class="phase-desc">Wir klären gemeinsam: Welche Leistungen sollen drauf? Wer sind die Kunden? Welche Keywords sind relevant für Google? Was soll die Seite auslösen?</div><div class="phase-tags"><span class="phase-tag yellow">Zielgruppe</span><span class="phase-tag yellow">Leistungen</span><span class="phase-tag yellow">Google-Kategorien</span><span class="phase-tag yellow">Keywords</span></div></div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num"><div class="phase-num-text">2</div><div class="phase-num-label">Phase</div></div>
+            <div class="phase-body"><div class="phase-title">Prototyp auf Vorschau-Domain</div><div class="phase-desc">Ich baue die komplette Webseite auf einer Vorschau-Adresse. Lukas kann alles live ansehen und Feedback geben. Innerhalb von 1–2 Wochen nehme ich alle Anpassungen vor.</div><div class="phase-tags"><span class="phase-tag">Vorschau-Link</span><span class="phase-tag">Feedback-Runden</span><span class="phase-tag">1–2 Wochen</span></div></div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num"><div class="phase-num-text">3</div><div class="phase-num-label">Phase</div></div>
+            <div class="phase-body"><div class="phase-title">Live auf holzbau-schulze.de</div><div class="phase-desc">Die Domain zeigt auf meinen Server. Die Seite ist öffentlich erreichbar. Gleichzeitig richten wir alles Technische und Rechtliche ein.</div><div class="phase-tags"><span class="phase-tag">Kontaktformular + n8n</span><span class="phase-tag">Cloudflare Turnstile</span><span class="phase-tag">Google Search Console</span><span class="phase-tag">Impressum · Datenschutz</span><span class="phase-tag">OnPage-SEO</span></div></div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num"><div class="phase-num-text">4</div><div class="phase-num-label">Phase</div></div>
+            <div class="phase-body"><div class="phase-title">Eigener Server für Lukas</div><div class="phase-desc">Wir richten gemeinsam einen eigenen kleinen Hetzner-Server ein (~4–6 € / Monat). Lukas besitzt damit alles selbst: Server, Domain, Webseite.</div><div class="phase-tags"><span class="phase-tag">Hetzner Cloud</span><span class="phase-tag">Coolify</span><span class="phase-tag">SSL automatisch</span></div></div>
+          </div>
+          <div class="phase-item">
+            <div class="phase-num"><div class="phase-num-text">5</div><div class="phase-num-label">Phase</div></div>
+            <div class="phase-body"><div class="phase-title">Übergabe & Einweisung</div><div class="phase-desc">Ich zeige Lukas wie alles zusammenhängt: wo sein Code liegt, wie Änderungen funktionieren, wie er mich kontaktiert wenn er etwas braucht.</div><div class="phase-tags"><span class="phase-tag">GitHub-Repo</span><span class="phase-tag">Coolify-Dashboard</span><span class="phase-tag">Einweisung</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="label">07 · Lokales SEO</div>
+        <h2>Gefunden werden<br>in der Region</h2>
+        <p>Die Webseite wird von Anfang an für lokale Google-Suchen optimiert. Ziel: wenn jemand in Heiningen oder Göppingen nach einem Zimmerer sucht, erscheint Lukas Schulze ganz oben.</p>
+        <div class="seo-grid">
+          <div class="seo-item"><div class="seo-check">✓ Eingebaut</div><div class="seo-title">LocalBusiness Schema</div><div class="seo-desc">Google erkennt Name, Adresse, Telefon, Koordinaten automatisch.</div></div>
+          <div class="seo-item"><div class="seo-check">✓ Eingebaut</div><div class="seo-title">Lokale Keywords</div><div class="seo-desc">„Zimmerer Heiningen", „Dachsanierung Göppingen" in Überschriften und Texten.</div></div>
+          <div class="seo-item"><div class="seo-check">✓ Eingebaut</div><div class="seo-title">Meta-Tags & Open Graph</div><div class="seo-desc">Jede Seite hat einen eigenen Titel und eine Beschreibung für Google und Social Media.</div></div>
+          <div class="seo-item"><div class="seo-check">✓ Eingerichtet</div><div class="seo-title">Google Search Console</div><div class="seo-desc">Wir sehen welche Suchen zur Seite führen und können gezielt optimieren.</div></div>
+          <div class="seo-item"><div class="seo-check">✓ Eingebaut</div><div class="seo-title">Sitemap & robots.txt</div><div class="seo-desc">Google findet alle Seiten automatisch und indexiert sie vollständig.</div></div>
+          <div class="seo-item"><div class="seo-check">✓ Empfohlen</div><div class="seo-title">Google Business Profil</div><div class="seo-desc">Unternehmensprofil vervollständigen für lokale Karteneinträge.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-text">Konzept erstellt von Christian Bachmann · christian-bachmann.com</div>
+        <div class="footer-note">Entwurf · Alle Inhalte sind Platzhalter<br>Stand: 2026</div>
+      </div>
+    </footer>
+
+  </div><!-- /content -->
+
+  <script>
+    const gate = document.getElementById('gate');
+    const content = document.getElementById('content');
+    const form = document.getElementById('gate-form');
+    const input = document.getElementById('pw-input');
+    const error = document.getElementById('gate-error');
+
+    // Check sessionStorage on load
+    if (sessionStorage.getItem('schulze_access') === '1') {
+      gate.classList.add('hidden');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (input.value.toLowerCase() === 'schulze') {
+        sessionStorage.setItem('schulze_access', '1');
+        gate.classList.add('hidden');
+        error.classList.remove('visible');
+      } else {
+        error.classList.add('visible');
+        input.value = '';
+        input.focus();
+      }
+    });
+  </script>
+
+</body>
+</html>
