@@ -164,8 +164,11 @@
 <div id="content" style="display:none;">
 
   <div class="topbar">
-    <span>Holzbau Schulze · Zielgruppen-Analyse</span>
-    <a href="/holzbau-schulze">← Zurück zum Styleguide</a>
+    <span>Holzbau Schulze · Konzept</span>
+    <nav style="display:flex;gap:4px;">
+      <a href="/holzbau-schulze">Styleguide</a>
+      <a href="/holzbau-schulze/zielgruppe" style="opacity:1;font-weight:700;">Zielgruppe</a>
+    </nav>
   </div>
 
   <div class="container">
@@ -486,7 +489,7 @@
 
 <script>
   // Check session storage first
-  if (sessionStorage.getItem('schulze_auth') === 'true') {
+  if (sessionStorage.getItem('schulze_access') === '1') {
     document.getElementById('gate').classList.add('hidden');
     document.getElementById('content').style.display = 'block';
   }
@@ -495,7 +498,7 @@
     e.preventDefault();
     const val = document.getElementById('pw-input').value.toLowerCase().trim();
     if (val === 'schulze') {
-      sessionStorage.setItem('schulze_auth', 'true');
+      sessionStorage.setItem('schulze_access', '1');
       document.getElementById('gate').classList.add('hidden');
       document.getElementById('content').style.display = 'block';
     } else {

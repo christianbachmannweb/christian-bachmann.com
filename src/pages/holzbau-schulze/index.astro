@@ -201,9 +201,10 @@
       max-width: 960px;
       margin: 0 auto;
       padding: 0 32px;
+      gap: 24px;
     }
 
-    .logo-mark { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
     .logo-img {
       height: 40px;
@@ -211,8 +212,31 @@
       display: block;
     }
 
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-    .header-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); }
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .header-nav a:hover { color: var(--cream); }
+    .header-nav a.active { color: var(--yellow); border-color: rgba(255,254,0,0.25); }
+
+    .header-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); flex-shrink: 0; }
+
+    @media (max-width: 600px) { .header-badge { display: none; } }
 
     .hero { padding: 100px 0 80px; background: var(--dark-2); border-bottom: 1px solid var(--dark-3); }
 
@@ -508,6 +532,10 @@
         <div class="logo-mark">
           <img class="logo-img" src="/assets/holzbau-schulze-logo.png" alt="Holzbau Schulze" />
         </div>
+        <nav class="header-nav">
+          <a href="/holzbau-schulze" class="active">Styleguide</a>
+          <a href="/holzbau-schulze/zielgruppe">Zielgruppe</a>
+        </nav>
         <div class="header-badge">Webseiten-Konzept · Entwurf</div>
       </div>
     </header>
@@ -655,7 +683,8 @@
         <div class="phases" style="margin-top:32px">
           <div class="phase-item active">
             <div class="phase-num"><div class="phase-num-text">1</div><div class="phase-num-label">Phase</div></div>
-            <div class="phase-body"><div class="phase-title">Verstehen</div><div class="phase-desc">Wir klären gemeinsam: Welche Leistungen sollen drauf? Wer sind die Kunden? Welche Keywords sind relevant für Google? Was soll die Seite auslösen?</div><div class="phase-tags"><span class="phase-tag yellow">Zielgruppe</span><span class="phase-tag yellow">Leistungen</span><span class="phase-tag yellow">Google-Kategorien</span><span class="phase-tag yellow">Keywords</span></div></div>
+            <div class="phase-body"><div class="phase-title">Verstehen</div><div class="phase-desc">Wir klären gemeinsam: Welche Leistungen sollen drauf? Wer sind die Kunden? Welche Keywords sind relevant für Google? Was soll die Seite auslösen?</div><div class="phase-tags"><span class="phase-tag yellow">Zielgruppe</span><span class="phase-tag yellow">Leistungen</span><span class="phase-tag yellow">Google-Kategorien</span><span class="phase-tag yellow">Keywords</span></div>
+            <div style="margin-top:16px;"><a href="/holzbau-schulze/zielgruppe" class="btn-primary" style="text-decoration:none;display:inline-block;">Zur Zielgruppen-Analyse →</a></div></div>
           </div>
           <div class="phase-item">
             <div class="phase-num"><div class="phase-num-text">2</div><div class="phase-num-label">Phase</div></div>
