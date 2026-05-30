@@ -236,7 +236,68 @@
 
     .header-badge { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); flex-shrink: 0; }
 
-    @media (max-width: 600px) { .header-badge { display: none; } }
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block;
+      height: 2px;
+      background: var(--cream);
+      transition: transform 0.25s ease, opacity 0.2s ease, width 0.2s ease;
+      transform-origin: center;
+    }
+    .hamburger span:nth-child(2) { width: 70%; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; width: 100%; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--dark-2);
+      border-bottom: 3px solid var(--yellow);
+      padding: 8px 0 16px;
+      z-index: 99;
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav a {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      padding: 14px 32px;
+      border-bottom: 1px solid var(--dark-3);
+      transition: color 0.15s, background 0.15s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover { color: var(--cream); background: var(--dark-3); }
+    .mobile-nav a.active { color: var(--yellow); }
+
+    @media (max-width: 640px) {
+      .header-badge { display: none; }
+      .header-nav { display: none; }
+      .hamburger { display: flex; }
+      header { position: sticky; top: 0; }
+    }
 
     .hero { padding: 100px 0 80px; background: var(--dark-2); border-bottom: 1px solid var(--dark-3); }
 
@@ -527,7 +588,7 @@
       </span>
     </div>
 
-    <header>
+    <header style="position:sticky;top:0;z-index:100;">
       <div class="header-inner">
         <div class="logo-mark">
           <img class="logo-img" src="/assets/holzbau-schulze-logo.png" alt="Holzbau Schulze" />
@@ -538,7 +599,15 @@
           <a href="/holzbau-schulze/strategie">SEO & AEO</a>
         </nav>
         <div class="header-badge">Webseiten-Konzept · Entwurf</div>
+        <button class="hamburger" id="hamburger" aria-label="Menü öffnen">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+      <nav class="mobile-nav" id="mobile-nav">
+        <a href="/holzbau-schulze" class="active">Styleguide</a>
+        <a href="/holzbau-schulze/zielgruppe">Zielgruppe</a>
+        <a href="/holzbau-schulze/strategie">SEO & AEO</a>
+      </nav>
     </header>
 
     <section class="hero">
@@ -781,6 +850,21 @@
         input.value = '';
         input.focus();
       }
+    });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    // Close on link click
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+      });
     });
   </script>
 
