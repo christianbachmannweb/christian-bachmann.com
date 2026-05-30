@@ -1,0 +1,451 @@
+---
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO & AEO Strategie – Holzbau Schulze</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── GATE ── */
+    #gate { position:fixed;inset:0;z-index:9999;background:#111110;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Libre Franklin',sans-serif;padding:32px; }
+    #gate.hidden { display:none; }
+    .gate-dot { width:8px;height:8px;background:#fffe00;border-radius:50%;margin-bottom:40px; }
+    .gate-title { font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#6b6b64;margin-bottom:32px; }
+    .gate-form { display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px; }
+    .gate-input { background:#1c1c1a;border:1px solid #2a2a27;color:#f0ede4;font-family:'Libre Franklin',sans-serif;font-size:15px;padding:14px 16px;outline:none;transition:border-color .2s; }
+    .gate-input:focus { border-color:#fffe00; }
+    .gate-input::placeholder { color:#3a3a36; }
+    .gate-btn { background:#fffe00;color:#111110;font-family:'Libre Franklin',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:14px;border:none;cursor:pointer; }
+    .gate-error { font-size:12px;color:rgba(255,80,80,.8);text-align:center;display:none; }
+    .gate-error.visible { display:block; }
+
+    /* ── BASE ── */
+    *,*::before,*::after { box-sizing:border-box;margin:0;padding:0; }
+    :root {
+      --yellow:#fffe00;--dark:#111110;--dark-2:#1c1c1a;--dark-3:#2a2a27;--dark-4:#3a3a36;
+      --mid:#6b6b64;--light:#c8c8bc;--cream:#f0ede4;
+      --font-display:'Big Shoulders Display',sans-serif;
+      --font-body:'Libre Franklin',sans-serif;
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--dark);color:var(--cream);font-family:var(--font-body);font-size:16px;line-height:1.7; }
+
+    /* ── TOPBAR ── */
+    .topbar { background:var(--yellow);padding:10px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap; }
+    .topbar span { font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--dark);letter-spacing:.04em; }
+    .topbar nav { display:flex;gap:4px; }
+    .topbar a { font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--dark);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;opacity:.6;padding:4px 8px; }
+    .topbar a:hover,.topbar a.active { opacity:1; }
+
+    /* ── LAYOUT ── */
+    .container { max-width:960px;margin:0 auto;padding:0 32px; }
+
+    /* ── PAGE HEADER ── */
+    .page-header { padding:80px 0 64px;border-bottom:1px solid var(--dark-3); }
+    .page-header .label { font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:16px; }
+    .page-header h1 { font-family:var(--font-display);font-size:clamp(40px,6vw,68px);font-weight:900;line-height:.95;color:#fff;text-transform:uppercase;margin-bottom:24px; }
+    .page-header p { font-size:17px;color:var(--light);max-width:600px;line-height:1.7; }
+
+    /* ── SECTIONS ── */
+    .section { padding:64px 0;border-bottom:1px solid var(--dark-3); }
+    .section:last-of-type { border-bottom:none; }
+    .section-label { font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px; }
+    .section h2 { font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:900;color:#fff;text-transform:uppercase;line-height:1;margin-bottom:20px; }
+    .section p { color:var(--light);margin-bottom:16px;max-width:680px; }
+    .section p:last-child { margin-bottom:0; }
+
+    /* ── CALLOUT ── */
+    .callout { background:var(--dark-2);border:1px solid var(--dark-3);border-left:4px solid var(--yellow);padding:24px 28px;margin:24px 0; }
+    .callout p { font-size:15px;color:var(--cream);margin:0;max-width:none; }
+    .callout strong { color:var(--yellow); }
+
+    /* ── AEO VERGLEICH ── */
+    .compare { display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0; }
+    @media(max-width:600px){.compare{grid-template-columns:1fr;}}
+    .compare-box { padding:24px 28px;font-size:14px;line-height:1.7; }
+    .compare-box.old { background:rgba(255,80,80,.06);border:1px solid rgba(255,80,80,.15); }
+    .compare-box.new { background:rgba(255,254,0,.06);border:1px solid rgba(255,254,0,.2); }
+    .compare-box .clabel { font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px; }
+    .compare-box.old .clabel { color:rgba(255,80,80,.7); }
+    .compare-box.new .clabel { color:var(--yellow); }
+    .compare-box p { color:var(--light);max-width:none;margin:0; }
+
+    /* ── WIREFRAME ── */
+    .wireframe-wrap { margin:32px 0;background:var(--dark-2);border:1px solid var(--dark-3);overflow:hidden; }
+    .wireframe-bar { background:var(--dark-3);padding:10px 16px;display:flex;align-items:center;gap:8px; }
+    .wireframe-dot { width:10px;height:10px;border-radius:50%;background:var(--dark-4); }
+    .wireframe-url { font-size:11px;color:var(--mid);font-family:monospace;margin-left:8px; }
+    .wireframe-body { padding:0; }
+
+    .wf-section { padding:20px 28px;border-bottom:1px solid var(--dark-3); }
+    .wf-section:last-child { border-bottom:none; }
+    .wf-label { font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px; }
+    .wf-h1 { font-family:var(--font-display);font-size:22px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:8px; }
+    .wf-text-block { display:flex;flex-direction:column;gap:6px; }
+    .wf-line { height:8px;background:var(--dark-3);border-radius:2px; }
+    .wf-line.short { width:60%; }
+    .wf-line.mid { width:80%; }
+    .wf-line.full { width:100%; }
+    .wf-line.yellow { background:rgba(255,254,0,.25);width:40%; }
+
+    .wf-bridge { background:rgba(255,254,0,.06);padding:20px 28px;border-top:1px solid rgba(255,254,0,.15);border-bottom:1px solid rgba(255,254,0,.15); }
+    .wf-bridge-inner { display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:center; }
+    .wf-avatar { width:80px;height:80px;border-radius:4px;background:var(--dark-3);display:flex;align-items:center;justify-content:center;font-size:24px; }
+    .wf-bridge-text { display:flex;flex-direction:column;gap:6px; }
+    .wf-bridge-headline { height:12px;background:rgba(255,254,0,.3);border-radius:2px;width:70%;margin-bottom:4px; }
+
+    .wf-trust { padding:20px 28px;border-bottom:1px solid var(--dark-3); }
+    .wf-stars { color:var(--yellow);font-size:16px;margin-bottom:8px;letter-spacing:2px; }
+    .wf-quote-line { height:7px;background:var(--dark-3);border-radius:2px;margin-bottom:4px; }
+    .wf-quote-line.w60 { width:60%; }
+    .wf-quote-line.w80 { width:80%; }
+
+    .wf-cta { padding:20px 28px;display:flex;gap:12px;flex-wrap:wrap; }
+    .wf-btn-primary { background:var(--yellow);color:var(--dark);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px;border:none; }
+    .wf-btn-secondary { background:transparent;color:var(--yellow);font-family:var(--font-body);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:12px 20px;border:1px solid var(--yellow); }
+
+    .wf-annotation { font-size:11px;color:var(--mid);font-style:italic;margin-top:4px; }
+
+    /* ── URL STRUKTUR ── */
+    .url-list { display:flex;flex-direction:column;gap:0;margin:24px 0; }
+    .url-item { display:grid;grid-template-columns:280px 1fr;gap:0;border:1px solid var(--dark-3);margin-bottom:-1px; }
+    @media(max-width:640px){.url-item{grid-template-columns:1fr;}}
+    .url-path { background:var(--dark-2);padding:14px 20px;font-family:monospace;font-size:13px;color:var(--yellow);border-right:1px solid var(--dark-3); }
+    .url-desc { padding:14px 20px;font-size:13px;color:var(--light); }
+    .url-item.ratgeber .url-path { color:#ffa94d; }
+    .url-item.highlight { border-color:rgba(255,254,0,.3); }
+    .url-section-label { font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:10px 20px 6px;color:var(--mid);background:var(--dark);border:1px solid var(--dark-3);border-bottom:none;margin-top:16px; }
+
+    /* ── SCHWÄBISCH ── */
+    .stimme-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0; }
+    @media(max-width:600px){.stimme-grid{grid-template-columns:1fr;}}
+    .stimme-card { padding:20px 24px;background:var(--dark-2);border:1px solid var(--dark-3); }
+    .stimme-card .slabel { font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px; }
+    .stimme-card.nein .slabel { color:rgba(255,80,80,.7); }
+    .stimme-card.ja .slabel { color:var(--yellow); }
+    .stimme-card p { font-size:14px;line-height:1.6;margin:0; }
+    .stimme-card.nein p { color:var(--mid);text-decoration: none; }
+    .stimme-card.ja p { color:var(--cream); }
+
+    /* ── FOOTER ── */
+    .page-footer { border-top:1px solid var(--dark-3);padding:40px 0;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px; }
+    .page-footer span { font-size:12px;color:var(--mid); }
+    .page-footer a { font-size:12px;color:var(--mid);text-decoration:none; }
+    .page-footer a:hover { color:var(--yellow); }
+  </style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-dot"></div>
+  <div class="gate-title">Holzbau Schulze · Konzept</div>
+  <form class="gate-form" id="gate-form">
+    <input class="gate-input" type="password" id="pw-input" placeholder="Passwort eingeben" autocomplete="current-password" />
+    <button class="gate-btn" type="submit">Zugang</button>
+    <div class="gate-error" id="gate-error">Falsches Passwort</div>
+  </form>
+</div>
+
+<!-- CONTENT -->
+<div id="content" style="display:none;">
+
+  <div class="topbar">
+    <span>Holzbau Schulze · Konzept</span>
+    <nav>
+      <a href="/holzbau-schulze">Styleguide</a>
+      <a href="/holzbau-schulze/zielgruppe">Zielgruppe</a>
+      <a href="/holzbau-schulze/strategie" class="active">SEO & AEO</a>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <div class="page-header">
+      <div class="label">Strategie</div>
+      <h1>Wie dich<br/>Google & KI<br/>finden</h1>
+      <p>Zwei Ziele, eine Website: bei Google auf Seite 1 ranken — und bei KI-Suchen (ChatGPT, Google AI) als Antwort erscheinen. Hier ist der Plan wie das geht.</p>
+    </div>
+
+
+    <!-- SEO vs AEO -->
+    <div class="section">
+      <div class="section-label">01</div>
+      <h2>SEO & AEO —<br/>was ist der Unterschied?</h2>
+
+      <div class="compare">
+        <div class="compare-box old">
+          <div class="clabel">SEO — Search Engine Optimization</div>
+          <p>Jemand googelt "Dachsanierung Göppingen" und klickt auf ein Ergebnis in der Liste. Deine Seite muss dort oben stehen. Das war jahrelang das einzige Ziel.</p>
+        </div>
+        <div class="compare-box new">
+          <div class="clabel">AEO — Answer Engine Optimization</div>
+          <p>Jemand fragt Google AI oder ChatGPT: "Was kostet eine Dachsanierung in Göppingen?" — und bekommt eine direkte Antwort. Darin steht: <em>"Laut Holzbau Schulze aus Heiningen..."</em></p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>Beide Ziele gleichzeitig:</strong> Wer eine Frage klar und ehrlich auf seiner Website beantwortet, rankt bei Google — UND wird von KI-Systemen zitiert. Dasselbe Inhalt, doppelter Effekt.</p>
+      </div>
+
+      <p>Das Entscheidende: KI-Suchen bevorzugen <strong>lokale, echte, vertrauenswürdige Quellen</strong>. Lukas hat einen echten Namen, eine echte Adresse, echte Bewertungen — das ist genau was KI-Systeme als Beweis nehmen dass jemand weiß wovon er redet.</p>
+    </div>
+
+
+    <!-- RATGEBER-SEITEN KONZEPT -->
+    <div class="section">
+      <div class="section-label">02</div>
+      <h2>Das Ratgeber-Seiten<br/>Konzept</h2>
+
+      <p>Für jede wichtige Frage die Kunden stellen bekommt deine Website eine eigene Seite. Die Seite beantwortet die Frage ehrlich — und führt den Leser dann sanft zum nächsten Schritt: dich anzurufen.</p>
+
+      <p>Das nennt sich <strong>Bridge-Struktur</strong>: oben die Antwort (für Google und KI), in der Mitte du persönlich (für Vertrauen), unten der Kontakt (für die Anfrage).</p>
+
+      <div class="callout">
+        <p><strong>Warum das funktioniert:</strong> Wer "Was kostet eine Dachsanierung?" sucht, ist noch nicht bereit anzurufen — er will erst verstehen. Wenn er die ehrliche Antwort bei dir findet und dann dein Gesicht sieht, ist der Schritt zum Anruf viel kleiner.</p>
+      </div>
+
+
+      <!-- WIREFRAME -->
+      <div class="wireframe-wrap">
+        <div class="wireframe-bar">
+          <div class="wireframe-dot"></div>
+          <div class="wireframe-dot"></div>
+          <div class="wireframe-dot"></div>
+          <span class="wireframe-url">holzbau-schulze.de/ratgeber/was-kostet-dachsanierung-goeppingen</span>
+        </div>
+        <div class="wireframe-body">
+
+          <!-- Block 1: AEO Antwort -->
+          <div class="wf-section">
+            <div class="wf-label">① Antwort-Block — für Google & KI</div>
+            <div class="wf-h1">Was kostet eine Dachsanierung in Göppingen?</div>
+            <p style="font-size:13px;color:var(--mid);margin-bottom:12px;">Ehrliche Antwort · ca. 250 Wörter · keine Werbung</p>
+            <div class="wf-text-block">
+              <div class="wf-line full"></div>
+              <div class="wf-line mid"></div>
+              <div class="wf-line full"></div>
+              <div class="wf-line short"></div>
+            </div>
+            <div style="margin-top:12px;padding:12px 16px;background:var(--dark-3);border-left:3px solid var(--yellow);">
+              <div style="font-size:12px;color:var(--yellow);font-weight:600;margin-bottom:6px;">Beispieltext (Laiensprache):</div>
+              <p style="font-size:13px;color:var(--light);margin:0;max-width:none;">"Eine Dachsanierung kostet in der Region Göppingen je nach Größe und Zustand meist zwischen 8.000 und 25.000 Euro. Der größte Unterschied: macht ihr nur die Ziegel neu, oder kommt auch Dämmung dazu? Das kläre ich beim ersten Termin — kostenlos und ohne Druck."</p>
+            </div>
+            <p class="wf-annotation">→ Klare Preisspanne + "Ich schau's mir an" = AEO-tauglich + typisch schwäbisch direkt</p>
+          </div>
+
+          <!-- Block 2: Bridge -->
+          <div class="wf-bridge">
+            <div class="wf-label" style="margin-bottom:14px;">② Bridge — von Info zu Kontakt</div>
+            <div style="font-family:'Big Shoulders Display',sans-serif;font-size:18px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:16px;">Du willst wissen was es bei dir konkret kostet?</div>
+            <div class="wf-bridge-inner">
+              <div class="wf-avatar">👷</div>
+              <div class="wf-bridge-text">
+                <div style="font-size:14px;color:var(--cream);font-weight:600;">Lukas Schulze · Zimmerer aus Heiningen</div>
+                <div style="font-size:13px;color:var(--mid);">"Ich schau's mir an und sag dir ehrlich was wirklich nötig ist — ohne Verkaufsdruck."</div>
+              </div>
+            </div>
+            <p class="wf-annotation" style="margin-top:12px;">→ Lukas' echtes Foto hier · 1 Satz in seiner Stimme · sympathisch, nicht werblich</p>
+          </div>
+
+          <!-- Block 3: Trust -->
+          <div class="wf-trust">
+            <div class="wf-label">③ Vertrauen</div>
+            <div class="wf-stars">★★★★★</div>
+            <div style="padding:12px 16px;background:var(--dark-3);border-left:3px solid var(--yellow);margin-bottom:8px;">
+              <p style="font-size:13px;font-style:italic;color:var(--cream);margin:0;max-width:none;">"Das erste Mal das Gefühl, dass es um uns ging — und nicht den größtmöglichen Profit."</p>
+              <div style="font-size:11px;color:var(--mid);margin-top:6px;">Google-Bewertung · Heiningen · ⭐⭐⭐⭐⭐</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--dark-4);color:var(--mid);">5★ Google · 12 Bewertungen</span>
+              <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--dark-4);color:var(--mid);">Seit 2018 · Heiningen</span>
+            </div>
+            <p class="wf-annotation" style="margin-top:8px;">→ Echte Bewertung + Zahlen-Badge = sofortiges Vertrauen</p>
+          </div>
+
+          <!-- Block 4: CTA -->
+          <div class="wf-cta">
+            <div style="width:100%;margin-bottom:8px;">
+              <div class="wf-label">④ Call to Action</div>
+            </div>
+            <button class="wf-btn-primary">📞 Jetzt anrufen: 0152 22950536</button>
+            <button class="wf-btn-secondary">💬 Auf WhatsApp schreiben</button>
+            <p class="wf-annotation" style="width:100%;margin-top:4px;">→ Primär: Anruf · Sekundär: WhatsApp · Kein Formular auf Ratgeber-Seiten (zu viel Reibung)</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- URL STRUKTUR -->
+    <div class="section">
+      <div class="section-label">03</div>
+      <h2>URL-Struktur</h2>
+      <p>Jede Seite hat genau ein Thema — und eine URL die das Thema klar benennt. Keine kryptischen IDs, keine langen Pfade. Kurz, lesbar, keyword-reich.</p>
+
+      <div class="url-list">
+        <div class="url-section-label">Hauptseiten</div>
+        <div class="url-item highlight">
+          <div class="url-path">/</div>
+          <div class="url-desc">Startseite · "Zimmerer Göppingen" · Wer ist Lukas, was macht er, wo</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/ueber-lukas</div>
+          <div class="url-desc">Persönliche Vorstellung · Vertrauen + E-E-A-T für alle anderen Seiten</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/referenzen</div>
+          <div class="url-desc">Drohnenfotos, Projektstories · Drohnenfotos mit SEO-alt-Text</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/partner</div>
+          <div class="url-desc">Fensterbauer Bolay, Zimmermannskollege · Vertrauensnetzwerk</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/kontakt</div>
+          <div class="url-desc">NAP · Formular · WhatsApp · Google Maps</div>
+        </div>
+
+        <div class="url-section-label">Leistungsseiten</div>
+        <div class="url-item">
+          <div class="url-path">/leistungen/dachsanierung</div>
+          <div class="url-desc">Primär: "Dachsanierung Göppingen" · Ablauf, Leistungsumfang, CTA</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/leistungen/daemmung</div>
+          <div class="url-desc">Primär: "Dachdämmung Göppingen" · Arten erklärt, KfW-Förderung, CTA</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/leistungen/holzfassade</div>
+          <div class="url-desc">Primär: "Holzfassade Göppingen" · Materialien, Pflege, Kosten, CTA</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/leistungen/dachfenster</div>
+          <div class="url-desc">Primär: "Dachfenster einbauen Göppingen" · Einbau + Tausch, CTA</div>
+        </div>
+        <div class="url-item">
+          <div class="url-path">/leistungen/pv-vorbereitung</div>
+          <div class="url-desc">Primär: "Photovoltaik Dach vorbereiten Göppingen"</div>
+        </div>
+
+        <div class="url-section-label" style="color:#ffa94d;">Ratgeber-Seiten (AEO) — je 1 Frage, Bridge-Struktur</div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/was-kostet-dachsanierung-goeppingen</div>
+          <div class="url-desc">FAQ: Kosten · höchstes Suchvolumen · AEO-Priorität 1</div>
+        </div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/zimmerer-oder-dachdecker</div>
+          <div class="url-desc">FAQ: Unterschied · fängt "Dachdecker Göppingen"-Suchen ab</div>
+        </div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/lohnt-sich-dachdaemmung</div>
+          <div class="url-desc">FAQ: Dämmung Kosten/Nutzen · KfW-Förderung erwähnen</div>
+        </div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/dach-vor-pv-sanieren</div>
+          <div class="url-desc">FAQ: PV + Dach kombinieren · wachsendes Segment</div>
+        </div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/wie-lange-dauert-dachsanierung</div>
+          <div class="url-desc">FAQ: Zeitplan · "kann ich im Haus bleiben?" mitbeantworten</div>
+        </div>
+        <div class="url-item ratgeber">
+          <div class="url-path">/ratgeber/holzfassade-kosten</div>
+          <div class="url-desc">FAQ: Preisspanne Holzfassade · Vergleich Materialien</div>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:8px;">
+        <p><strong>Ratgeber-Seiten intern verlinken:</strong> Jede Ratgeber-Seite verlinkt auf die passende Leistungsseite — und jede Leistungsseite verlinkt zurück auf relevante Ratgeber. Das stärkt beide Seiten bei Google.</p>
+      </div>
+    </div>
+
+
+    <!-- SCHWÄBISCHE STIMME -->
+    <div class="section">
+      <div class="section-label">04</div>
+      <h2>Lukas' Stimme —<br/>schwäbisch direkt</h2>
+
+      <p>Lukas redet schwäbisch. Das bedeutet nicht Dialekt auf der Website — aber es bedeutet eine bestimmte Art zu kommunizieren: direkt, ehrlich, kein Aufhebens. Kein Hochglanz-Marketing. Kein "Wir bieten Ihnen kompetente Lösungen." Sondern das was ein Schwabe sagt wenn er wirklich redet.</p>
+
+      <div class="callout">
+        <p><strong>Das Prinzip:</strong> Die Texte klingen als ob Lukas neben dir steht und dir erklärt was dein Dach braucht. Nicht als ob ein Texter versucht professionell zu klingen.</p>
+      </div>
+
+      <div class="stimme-grid">
+        <div class="stimme-card nein">
+          <div class="slabel">❌ Nicht so</div>
+          <p>"Wir realisieren für Sie maßgeschneiderte Zimmerei-Lösungen mit höchsten Qualitätsstandards."</p>
+        </div>
+        <div class="stimme-card ja">
+          <div class="slabel">✓ So</div>
+          <p>"Ich schau's mir an und sag dir was wirklich nötig ist — und was nicht."</p>
+        </div>
+        <div class="stimme-card nein">
+          <div class="slabel">❌ Nicht so</div>
+          <p>"Unsere professionellen Mitarbeiter stehen Ihnen für alle Fragen rund um Ihr Dachsanierungsprojekt zur Verfügung."</p>
+        </div>
+        <div class="stimme-card ja">
+          <div class="slabel">✓ So</div>
+          <p>"Ruf einfach an. Ich bin meistens auf der Baustelle — aber ich ruf zurück, versprochen."</p>
+        </div>
+        <div class="stimme-card nein">
+          <div class="slabel">❌ Nicht so</div>
+          <p>"Durch den Einsatz hochwertiger Materialien und modernster Verarbeitungstechniken garantieren wir langlebige Ergebnisse."</p>
+        </div>
+        <div class="stimme-card ja">
+          <div class="slabel">✓ So</div>
+          <p>"Ich bau's so wie's bei mir selber sein müsste. Sauber, ordentlich, und halt."</p>
+        </div>
+        <div class="stimme-card nein">
+          <div class="slabel">❌ Nicht so</div>
+          <p>"Eine Aufdachdämmung optimiert die thermische Performance Ihrer Gebäudehülle signifikant."</p>
+        </div>
+        <div class="stimme-card ja">
+          <div class="slabel">✓ So</div>
+          <p>"Wenn's oben nicht gedämmt ist, heizt du im Winter fürs Dach. Das müssen wir ändern."</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>Und das Beste:</strong> Diese Sprache funktioniert für AEO. Google AI zitiert Antworten die sich wie echte Menschen klingen — nicht wie Kataloge. "Ich schau's mir an und sag dir was wirklich nötig ist" ist ein Satz den eine KI gerne zitiert. "Maßgeschneiderte Lösungen mit Qualitätsstandards" ist keiner.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="page-footer">
+      <span>christian-bachmann.com · Konzept für Holzbau Schulze</span>
+      <a href="/holzbau-schulze">← Zurück zum Styleguide</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  if (sessionStorage.getItem('schulze_access') === '1') {
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('content').style.display = 'block';
+  }
+  document.getElementById('gate-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (document.getElementById('pw-input').value.toLowerCase().trim() === 'schulze') {
+      sessionStorage.setItem('schulze_access', '1');
+      document.getElementById('gate').classList.add('hidden');
+      document.getElementById('content').style.display = 'block';
+    } else {
+      document.getElementById('gate-error').classList.add('visible');
+    }
+  });
+</script>
+
+</body>
+</html>
