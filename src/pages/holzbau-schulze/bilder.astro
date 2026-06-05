@@ -1,0 +1,843 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+import lukasPortrait from '../../assets/holzbau-schulze-bilder/Lukas-bg-removed.png';
+
+const photoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/holzbau-schulze-bilder/foto-*.jpg',
+  { eager: true }
+);
+
+const photos = Object.entries(photoModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, mod]) => mod.default);
+
+const featuredPhotos = photos.slice(0, 3);
+const galleryPhotos  = photos.slice(3);
+
+const p04 = photos[0];
+const p05 = photos[1];
+const p06 = photos[2];
+const p07 = photos[3];
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bilder – Holzbau Schulze · Webseiten-Konzept</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Big+Shoulders+Display:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── GATE ── */
+    #gate{position:fixed;inset:0;z-index:9999;background:#0f0f0e;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Libre Franklin',sans-serif;padding:32px}
+    #gate.hidden{display:none}
+    .gate-dot{width:8px;height:8px;background:#fffe00;border-radius:50%;margin-bottom:40px}
+    .gate-title{font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#6b6b64;margin-bottom:32px}
+    .gate-form{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px}
+    .gate-input{background:#1c1c1a;border:1px solid #2a2a27;color:#f0ede4;font-family:'Libre Franklin',sans-serif;font-size:15px;padding:14px 16px;outline:none;transition:border-color .2s}
+    .gate-input:focus{border-color:#fffe00}
+    .gate-input::placeholder{color:#3a3a36}
+    .gate-btn{background:#fffe00;color:#111110;font-family:'Libre Franklin',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:14px;border:none;cursor:pointer}
+    .gate-error{font-size:12px;color:rgba(255,80,80,.8);text-align:center;display:none}
+    .gate-error.visible{display:block}
+
+    /* ── BASE ── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --yellow:#fffe00;
+      --yellow-dim:rgba(255,254,0,.09);
+      --dark:#111110;
+      --dark-2:#1a1a18;
+      --dark-3:#252522;
+      --dark-4:#363632;
+      --mid:#6b6b64;
+      --light:#c8c8bc;
+      --cream:#f0ede4;
+      --white:#ffffff;
+      --font-display:'Big Shoulders Display',sans-serif;
+      --font-body:'Libre Franklin',sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--dark);color:var(--cream);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:clip}
+    .container{max-width:960px;margin:0 auto;padding:0 40px}
+
+    .label{font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
+    h2{font-family:var(--font-display);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.05;color:var(--white);margin-bottom:24px;text-transform:uppercase;letter-spacing:.02em}
+    p{color:var(--light);max-width:640px}
+    p+p{margin-top:12px}
+
+    /* ── HEADER ── */
+    header{background:var(--dark-2);border-bottom:2px solid var(--yellow);padding:18px 0;position:sticky;top:0;z-index:100}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:0 40px;gap:24px}
+    .logo-img{height:38px;width:auto;display:block}
+    .header-nav{display:flex;align-items:center;gap:2px}
+    .header-nav a{font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-decoration:none;padding:6px 14px;border:1px solid transparent;transition:color .15s,border-color .15s}
+    .header-nav a:hover{color:var(--cream)}
+    .header-nav a.active{color:var(--yellow);border-color:rgba(255,254,0,.25)}
+    .header-badge{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--dark-4);flex-shrink:0}
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0}
+    .hamburger span{display:block;height:2px;background:var(--cream);transition:transform .25s ease,opacity .2s ease,width .2s ease;transform-origin:center}
+    .hamburger span:nth-child(2){width:70%}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;width:100%}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .mobile-nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--dark-2);border-bottom:2px solid var(--yellow);padding:8px 0 16px;z-index:99}
+    .mobile-nav.open{display:block}
+    .mobile-nav a{display:block;font-family:var(--font-body);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;padding:14px 40px;border-bottom:1px solid var(--dark-3);transition:color .15s,background .15s}
+    .mobile-nav a:last-child{border-bottom:none}
+    .mobile-nav a:hover{color:var(--cream);background:var(--dark-3)}
+    .mobile-nav a.active{color:var(--yellow)}
+    @media(max-width:640px){.header-badge{display:none}.header-nav{display:none}.hamburger{display:flex}}
+
+    /* ── HERO FREIGESTELLT (STIL A) ── */
+    .hero-portrait{padding:0;overflow:hidden;background:var(--dark)}
+    .hero-portrait-inner{display:grid;grid-template-columns:1fr 1.15fr;align-items:end;min-height:92vh;max-width:960px;margin:0 auto;padding:0 40px;gap:0}
+    .hero-portrait-text{padding:100px 56px 80px 0;display:flex;flex-direction:column;justify-content:center}
+    .hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);margin-bottom:24px}
+    .hero-portrait-title{font-family:var(--font-display);font-size:clamp(44px,7vw,80px);font-weight:900;line-height:.9;text-transform:uppercase;color:var(--white);margin-bottom:32px;letter-spacing:-.01em}
+    .hero-portrait-desc{font-size:15px;font-weight:300;color:var(--light);line-height:1.75;margin-bottom:40px;max-width:360px}
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px}
+    .pill{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px}
+    .pill.y{background:var(--yellow-dim);border:1px solid rgba(255,254,0,.3);color:var(--yellow)}
+    .pill.g{border:1px solid var(--dark-4);color:var(--mid)}
+    .hero-portrait-figure{position:relative;display:flex;align-items:flex-end;justify-content:center;height:92vh;overflow:visible}
+    .hero-portrait-figure img{height:108%;max-height:none;width:auto;max-width:none;display:block;object-fit:contain;object-position:bottom center;position:relative;z-index:2}
+    .hero-portrait-figure::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:380px;height:160px;background:radial-gradient(ellipse at center bottom,rgba(255,254,0,.16) 0%,transparent 68%);z-index:1}
+    .hero-portrait-name{position:absolute;bottom:48px;right:0;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);opacity:.35;writing-mode:vertical-rl;transform:rotate(180deg)}
+    @media(max-width:768px){.hero-portrait-inner{grid-template-columns:1fr;min-height:auto}.hero-portrait-text{padding:60px 0 28px}.hero-portrait-figure{height:72vw;min-height:340px}}
+
+    /* ── NOTICE ── */
+    .notice-banner{padding:14px 40px;background:var(--yellow-dim);border-top:1px solid rgba(255,254,0,.12);border-bottom:1px solid rgba(255,254,0,.12)}
+    .notice-inner{max-width:960px;margin:0 auto;display:flex;gap:14px;align-items:flex-start}
+    .notice-dot{width:5px;height:5px;background:var(--yellow);border-radius:50%;margin-top:7px;flex-shrink:0}
+    .notice-txt{font-size:13px;color:var(--light);line-height:1.6;max-width:none}
+    .notice-txt strong{color:var(--yellow);font-weight:600}
+
+    /* ── VARIANT NAV ── */
+    .variant-nav{background:var(--dark-2);border-bottom:1px solid var(--dark-3);position:sticky;top:76px;z-index:90;overflow-x:auto}
+    .variant-nav-inner{display:flex;align-items:stretch;max-width:960px;margin:0 auto;padding:0 40px}
+    .variant-nav-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dark-4);display:flex;align-items:center;padding-right:20px;margin-right:4px;border-right:1px solid var(--dark-3)}
+    .variant-nav a{font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);text-decoration:none;padding:13px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;display:flex;align-items:center;gap:6px}
+    .variant-nav a:hover{color:var(--cream)}
+    .variant-nav a.rec{color:var(--yellow)}
+    .variant-nav a .star{color:var(--yellow)}
+
+    /* Variant header strip — shared */
+    .vs{padding:0;border-top:1px solid var(--dark-3)}
+    .vs-strip{padding:16px 0;background:var(--dark-2);border-bottom:1px solid var(--dark-3)}
+    .vs-strip-inner{max-width:960px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .vs-id{font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;gap:10px}
+    .vs-id strong{font-size:13px;color:var(--white)}
+    .vs-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .vs-code{font-family:'Courier New',monospace;font-size:10px;color:var(--mid);background:var(--dark-3);padding:3px 9px;border:1px solid var(--dark-4)}
+    .vs-badge{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px}
+    .vs-badge.r{background:var(--yellow);color:var(--dark)}
+    .vs-badge.a{border:1px solid var(--dark-4);color:var(--mid)}
+
+    /* ════════════════════════════════
+       STIL B — STATS-LEISTE UNTEN
+    ════════════════════════════════ */
+    .ab{background:var(--dark)}
+    .ab-grid{display:grid;grid-template-columns:1fr 420px;align-items:stretch;max-width:960px;margin:0 auto;padding:0 40px}
+    .ab-text{padding:80px 64px 72px 0;display:flex;flex-direction:column;justify-content:center}
+    .ab-title{font-family:var(--font-display);font-size:clamp(52px,7vw,88px);font-weight:900;text-transform:uppercase;line-height:.88;letter-spacing:-.01em;color:var(--white);margin-bottom:28px}
+    .ab-title em{font-style:normal;color:var(--yellow)}
+    .ab-desc{font-size:15px;line-height:1.75;color:var(--light);margin-bottom:36px;max-width:none;font-weight:300}
+    .ab-cta{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--dark);font-family:var(--font-body);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:16px 28px 12px;text-decoration:none;clip-path:polygon(0 8px,50% 0,100% 8px,100% 100%,0 100%);transition:background .2s,clip-path .3s cubic-bezier(.34,1.56,.64,1)}
+    .ab-cta:hover{background:#ffff33;clip-path:polygon(0 16px,50% 0,100% 16px,100% 100%,0 100%)}
+    .ab-portrait{overflow:hidden;min-height:540px}
+    .ab-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:brightness(.88) saturate(.85);transition:filter .4s}
+    .ab-portrait:hover img{filter:brightness(.95) saturate(1)}
+    /* Stats strip */
+    .ab-stats{max-width:960px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--dark-3)}
+    .ab-stat{padding:36px 0;border-right:1px solid var(--dark-3);padding-right:40px;padding-left:0}
+    .ab-stat+.ab-stat{padding-left:40px}
+    .ab-stat:last-child{border-right:none}
+    .ab-stat-num{font-family:var(--font-display);font-size:clamp(56px,7vw,80px);font-weight:900;color:var(--yellow);line-height:.9;margin-bottom:10px;letter-spacing:-.02em}
+    .ab-stat-lbl{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mid)}
+    .ab-name{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mid);opacity:.4;margin-top:8px}
+    @media(max-width:760px){.ab-grid{grid-template-columns:1fr}.ab-portrait{min-height:320px}.ab-text{padding:60px 0 40px}.ab-stats{grid-template-columns:1fr 1fr}.ab-stat:nth-child(2){border-right:none}.ab-stat:last-child{grid-column:1/-1;border-right:none}}
+
+    /* ════════════════════════════════
+       STIL C — WEICHES GROSSES PORTRAIT
+    ════════════════════════════════ */
+    .ac{position:relative;overflow:hidden;background:var(--dark-2);padding:88px 0}
+    .ac::before{content:'ÜBER';position:absolute;font-family:var(--font-display);font-size:clamp(160px,24vw,320px);font-weight:900;color:#fff;opacity:.025;top:50%;left:-20px;transform:translateY(-50%);letter-spacing:-.04em;line-height:1;user-select:none;pointer-events:none;text-transform:uppercase}
+    .ac-grid{display:grid;grid-template-columns:400px 1fr;gap:64px;align-items:center;max-width:960px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
+    .ac-img{position:relative}
+    .ac-img img{width:100%;height:auto;display:block;border-radius:40px;border:2px solid rgba(255,254,0,.18)}
+    /* Yellow corner accent (top-right) */
+    .ac-img::after{content:'';position:absolute;top:-1px;right:-1px;width:48px;height:48px;border-top:3px solid var(--yellow);border-right:3px solid var(--yellow);border-radius:0 40px 0 0}
+    .ac-text{}
+    .ac-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
+    .ac-title{font-family:var(--font-display);font-size:clamp(40px,5.5vw,70px);font-weight:900;text-transform:uppercase;line-height:.88;color:var(--white);margin-bottom:24px;letter-spacing:-.01em}
+    .ac-title em{font-style:normal;color:var(--yellow)}
+    .ac-desc{font-size:15px;font-weight:300;color:var(--light);line-height:1.75;margin-bottom:36px;max-width:none}
+    .ac-divider{width:40px;height:2px;background:var(--yellow);margin-bottom:28px}
+    .ac-bullets{display:flex;flex-direction:column;gap:14px}
+    .ac-bullet{display:flex;align-items:flex-start;gap:14px}
+    .ac-dot{width:5px;height:5px;border-radius:50%;background:var(--yellow);flex-shrink:0;margin-top:9px}
+    .ac-bullet-txt{font-size:14px;color:var(--light);line-height:1.5;max-width:none}
+    @media(max-width:700px){.ac-grid{grid-template-columns:1fr;gap:36px}.ac::before{display:none}}
+
+    /* ════════════════════════════════
+       STIL D — FULL-BLEED CINEMATIC
+    ════════════════════════════════ */
+    .ad{position:relative;overflow:hidden;min-height:90vh;display:flex;flex-direction:column;justify-content:flex-end}
+    .ad-bg{position:absolute;inset:0;z-index:0}
+    .ad-bg img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+    /* Layered gradients for depth */
+    .ad::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(17,17,16,.95) 0%,rgba(17,17,16,.6) 45%,rgba(17,17,16,.2) 100%);z-index:1}
+    .ad::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.98) 0%,rgba(17,17,16,.3) 50%,transparent 100%);z-index:1}
+    .ad-content{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 40px 72px;width:100%}
+    .ad-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);margin-bottom:20px}
+    .ad-title{font-family:var(--font-display);font-size:clamp(64px,11vw,130px);font-weight:900;text-transform:uppercase;line-height:.85;letter-spacing:-.02em;color:var(--white);margin-bottom:0}
+    .ad-title em{font-style:normal;color:var(--yellow)}
+    .ad-bottom{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:end;margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.08)}
+    .ad-desc{font-size:16px;font-weight:300;color:var(--light);line-height:1.7;max-width:520px}
+    .ad-aside{display:flex;flex-direction:column;gap:0;text-align:right;flex-shrink:0}
+    .ad-quote-text{font-size:13px;font-style:italic;color:var(--light);line-height:1.6;margin-bottom:10px;max-width:320px;opacity:.8}
+    .ad-quote-auth{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow)}
+    @media(max-width:700px){.ad-bottom{grid-template-columns:1fr}.ad-aside{text-align:left}.ad-title{font-size:clamp(52px,13vw,90px)}}
+
+    /* ════════════════════════════════
+       STIL E — EDITORIAL SPLIT
+    ════════════════════════════════ */
+    .ae{overflow:hidden;border-top:1px solid var(--dark-3)}
+    .ae-grid{display:grid;grid-template-columns:1fr 1fr;min-height:680px}
+    .ae-img{position:relative;overflow:hidden}
+    .ae-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:brightness(.8) saturate(.85);transition:filter .6s}
+    .ae:hover .ae-img img{filter:brightness(.9) saturate(.95)}
+    /* Thin yellow left bar */
+    .ae-img::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--yellow)}
+    /* Vertical caption */
+    .ae-img-label{position:absolute;bottom:32px;left:24px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);opacity:.4}
+    .ae-content{display:flex;flex-direction:column;justify-content:center;padding:80px 72px 80px 64px;background:var(--dark-2);position:relative;overflow:hidden}
+    /* Ghost text background */
+    .ae-content::before{content:'15+';position:absolute;font-family:var(--font-display);font-size:280px;font-weight:900;color:#fff;opacity:.025;bottom:-40px;right:-20px;line-height:1;letter-spacing:-.04em;user-select:none;pointer-events:none}
+    .ae-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
+    .ae-title{font-family:var(--font-display);font-size:clamp(36px,4.5vw,62px);font-weight:900;text-transform:uppercase;line-height:.88;color:var(--white);margin-bottom:24px;letter-spacing:-.01em}
+    .ae-title em{font-style:normal;color:var(--yellow)}
+    .ae-desc{font-size:14px;font-weight:300;color:var(--light);line-height:1.75;margin-bottom:40px;max-width:none;position:relative}
+    .ae-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:44px;position:relative;border:1px solid var(--dark-3)}
+    .ae-stat{padding:24px 28px;border-right:1px solid var(--dark-3);border-bottom:1px solid var(--dark-3)}
+    .ae-stat:nth-child(2){border-right:none}
+    .ae-stat:nth-child(3){border-bottom:none}
+    .ae-stat:nth-child(4){border-right:none;border-bottom:none}
+    .ae-stat-num{font-family:var(--font-display);font-size:clamp(40px,4vw,56px);font-weight:900;color:var(--yellow);line-height:.9;margin-bottom:8px;letter-spacing:-.02em}
+    .ae-stat-lbl{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--mid)}
+    .ae-cta{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:var(--dark);font-family:var(--font-body);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:16px 28px 12px;text-decoration:none;align-self:flex-start;clip-path:polygon(0 8px,50% 0,100% 8px,100% 100%,0 100%);transition:background .2s,clip-path .3s cubic-bezier(.34,1.56,.64,1)}
+    .ae-cta:hover{background:#ffff33;clip-path:polygon(0 16px,50% 0,100% 16px,100% 100%,0 100%)}
+    @media(max-width:768px){.ae-grid{grid-template-columns:1fr}.ae-img{min-height:320px}.ae-content{padding:56px 40px}.ae-content::before{display:none}}
+
+    /* ── GALLERY ── */
+    .gallery-section{padding:88px 0;border-top:1px solid var(--dark-3)}
+    .gallery-header{margin-bottom:44px}
+    .gallery-grid{columns:3;column-gap:6px}
+    .gallery-item{break-inside:avoid;margin-bottom:6px;position:relative;overflow:hidden;cursor:pointer;display:block}
+    .gallery-item img{width:100%;height:auto;display:block;transition:transform .5s ease;filter:brightness(.88) saturate(.85)}
+    .gallery-item:hover img{transform:scale(1.04);filter:brightness(1) saturate(1)}
+    .gallery-item-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(17,17,16,.8) 0%,transparent 55%);opacity:0;transition:opacity .35s ease;display:flex;align-items:flex-end;padding:14px}
+    .gallery-item:hover .gallery-item-overlay{opacity:1}
+    .gallery-item-num{font-family:var(--font-display);font-size:30px;font-weight:900;color:var(--yellow);line-height:1}
+    @media(max-width:768px){.gallery-grid{columns:2}}
+    @media(max-width:480px){.gallery-grid{columns:1}}
+
+    /* ── FEATURED PAIR ── */
+    .featured-pair{display:grid;grid-template-columns:1.5fr 1fr;gap:6px;margin-top:52px}
+    .featured-pair-item{position:relative;overflow:hidden;cursor:pointer}
+    .featured-pair-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;filter:brightness(.88) saturate(.85)}
+    .featured-pair-item:hover img{transform:scale(1.03);filter:brightness(.98) saturate(1)}
+    .featured-caption{position:absolute;bottom:0;left:0;right:0;padding:36px 24px 20px;background:linear-gradient(to top,rgba(17,17,16,.9) 0%,transparent 100%)}
+    .featured-caption-label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:4px}
+    .featured-caption-text{font-family:var(--font-display);font-size:20px;font-weight:700;text-transform:uppercase;color:var(--white);max-width:none}
+    @media(max-width:640px){.featured-pair{grid-template-columns:1fr}}
+
+    /* ── NOTES ── */
+    .notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:40px;border:1px solid var(--dark-3)}
+    .note-card{padding:28px 32px;background:var(--dark-2)}
+    .note-card.y{background:rgba(255,254,0,.04)}
+    .note-title{font-family:var(--font-display);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--white);margin-bottom:8px}
+    .note-text{font-size:13px;line-height:1.6;color:var(--mid);max-width:none}
+    @media(max-width:600px){.notes-grid{grid-template-columns:1fr}}
+
+    /* ── LIGHTBOX ── */
+    .lightbox{position:fixed;inset:0;z-index:1000;background:rgba(11,11,10,.97);display:none;align-items:center;justify-content:center;padding:24px}
+    .lightbox.open{display:flex}
+    .lightbox-img{max-width:90vw;max-height:90vh;object-fit:contain;display:block}
+    .lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;background:var(--dark-3);border:1px solid var(--dark-4);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:18px;line-height:1}
+    .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:var(--dark-3);border:1px solid var(--dark-4);color:var(--cream);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:background .15s}
+    .lightbox-nav:hover{background:var(--dark-4)}
+    .lightbox-prev{left:24px}
+    .lightbox-next{right:24px}
+    .lightbox-counter{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--mid)}
+
+    /* ── FOOTER ── */
+    footer{padding:40px 0;background:var(--dark-2);border-top:1px solid var(--dark-3)}
+    .footer-inner{max-width:960px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center}
+    .footer-text{font-size:11px;color:var(--mid)}
+    .footer-note{font-size:10px;color:var(--dark-4);text-align:right}
+
+    /* ── SCROLL ENTRANCE ── */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in{opacity:1;transform:none}
+
+    /* ════════════════════════════════
+       STIL F — HELL · STATS-LEISTE
+    ════════════════════════════════ */
+    .af{background:#f5f2eb}
+    .af-grid{display:grid;grid-template-columns:1fr 400px;align-items:stretch;max-width:960px;margin:0 auto;padding:0 40px}
+    .af-text{padding:80px 64px 72px 0;display:flex;flex-direction:column;justify-content:center}
+    .af-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#888880;margin-bottom:20px}
+    .af-title{font-family:var(--font-display);font-size:clamp(52px,7vw,88px);font-weight:900;text-transform:uppercase;line-height:.88;letter-spacing:-.01em;color:#111110;margin-bottom:28px}
+    .af-title em{font-style:normal;color:#111110;-webkit-text-stroke:2px #111110;/* outline for the em word */}
+    .af-desc{font-size:15px;line-height:1.75;color:#555550;margin-bottom:36px;max-width:none;font-weight:400}
+    .af-cta{display:inline-flex;align-items:center;gap:10px;background:#111110;color:#f5f2eb;font-family:var(--font-body);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:16px 28px 12px;text-decoration:none;clip-path:polygon(0 8px,50% 0,100% 8px,100% 100%,0 100%);transition:background .2s,clip-path .3s cubic-bezier(.34,1.56,.64,1)}
+    .af-cta:hover{background:#333330;clip-path:polygon(0 16px,50% 0,100% 16px,100% 100%,0 100%)}
+    .af-portrait{overflow:hidden;min-height:540px;position:relative}
+    .af-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:brightness(.92) saturate(.8)}
+    /* Yellow corner accent top-left */
+    .af-portrait::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--yellow);z-index:2}
+    /* Stats strip — inverted: yellow background */
+    .af-stats{max-width:960px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--yellow)}
+    .af-stat{padding:32px 0;border-right:1px solid rgba(0,0,0,.1);padding-right:40px;padding-left:0}
+    .af-stat+.af-stat{padding-left:40px}
+    .af-stat:last-child{border-right:none}
+    .af-stat-num{font-family:var(--font-display);font-size:clamp(52px,7vw,76px);font-weight:900;color:#111110;line-height:.9;margin-bottom:10px;letter-spacing:-.02em}
+    .af-stat-lbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(0,0,0,.5)}
+    @media(max-width:760px){.af-grid{grid-template-columns:1fr}.af-portrait{min-height:300px}.af-text{padding:60px 0 40px}.af-stats{grid-template-columns:1fr 1fr}.af-stat:nth-child(2){border-right:none}.af-stat:last-child{grid-column:1/-1;border-right:none}}
+
+    /* ════════════════════════════════
+       STIL G — WEISS · EDITORIAL CLEAN
+    ════════════════════════════════ */
+    .ag{overflow:hidden;border-top:1px solid #e8e4d8}
+    .ag-grid{display:grid;grid-template-columns:1fr 1fr;min-height:680px}
+    .ag-img{position:relative;overflow:hidden;background:#111110}
+    .ag-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:brightness(.9) saturate(.75);mix-blend-mode:multiply}
+    /* Thick yellow top border */
+    .ag-img::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:var(--yellow);z-index:2}
+    .ag-img-label{position:absolute;bottom:24px;left:24px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:.5;z-index:2}
+    .ag-content{display:flex;flex-direction:column;justify-content:center;padding:72px 64px 72px 64px;background:#ffffff;border-left:1px solid #e8e4d8;position:relative;overflow:hidden}
+    /* Very subtle ghost text */
+    .ag-content::before{content:'L';position:absolute;font-family:var(--font-display);font-size:420px;font-weight:900;color:#111110;opacity:.025;bottom:-80px;right:-40px;line-height:1;letter-spacing:-.04em;user-select:none;pointer-events:none}
+    .ag-eyebrow{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#aaa89e;margin-bottom:18px}
+    .ag-title{font-family:var(--font-display);font-size:clamp(36px,4.5vw,62px);font-weight:900;text-transform:uppercase;line-height:.88;color:#111110;margin-bottom:24px;letter-spacing:-.01em}
+    .ag-title em{font-style:normal;color:#111110}
+    /* Yellow underline on "em" word */
+    .ag-title em::after{content:'';display:block;height:4px;background:var(--yellow);margin-top:4px;width:100%}
+    .ag-desc{font-size:14px;font-weight:400;color:#555550;line-height:1.8;margin-bottom:36px;max-width:none}
+    .ag-divider{width:32px;height:3px;background:var(--yellow);margin-bottom:28px}
+    .ag-stats{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:40px;border:1px solid #e8e4d8}
+    .ag-stat{padding:20px 24px;border-right:1px solid #e8e4d8;border-bottom:1px solid #e8e4d8}
+    .ag-stat:nth-child(2){border-right:none}
+    .ag-stat:nth-child(3){border-bottom:none}
+    .ag-stat:nth-child(4){border-right:none;border-bottom:none}
+    .ag-stat-num{font-family:var(--font-display);font-size:clamp(36px,4vw,52px);font-weight:900;color:#111110;line-height:.9;margin-bottom:8px;letter-spacing:-.02em}
+    .ag-stat-num em{font-style:normal;color:var(--yellow);-webkit-text-stroke:1px #888}
+    .ag-stat-lbl{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#aaa89e}
+    .ag-cta{display:inline-flex;align-items:center;gap:10px;background:var(--yellow);color:#111110;font-family:var(--font-body);font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:16px 28px 12px;text-decoration:none;align-self:flex-start;clip-path:polygon(0 8px,50% 0,100% 8px,100% 100%,0 100%);transition:background .2s,clip-path .3s cubic-bezier(.34,1.56,.64,1)}
+    .ag-cta:hover{background:#ffff33;clip-path:polygon(0 16px,50% 0,100% 16px,100% 100%,0 100%)}
+    @media(max-width:768px){.ag-grid{grid-template-columns:1fr}.ag-img{min-height:320px}.ag-content{padding:52px 40px}.ag-content::before{display:none}}
+  </style>
+</head>
+<body>
+
+  <div id="gate">
+    <div class="gate-dot"></div>
+    <div class="gate-title">Holzbau Schulze · Webseiten-Konzept</div>
+    <form class="gate-form" id="gate-form">
+      <input class="gate-input" type="password" id="pw-input" placeholder="Passwort eingeben" autocomplete="current-password" />
+      <button class="gate-btn" type="submit">Zugang</button>
+      <div class="gate-error" id="gate-error">Falsches Passwort</div>
+    </form>
+  </div>
+
+  <div id="content">
+
+    <div style="background:var(--yellow);padding:9px 40px;text-align:center;">
+      <span style="font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--dark);letter-spacing:.04em;">
+        Webseiten-Konzept · Entwurf — kein fertiges Design
+      </span>
+    </div>
+
+    <header>
+      <div class="header-inner">
+        <img class="logo-img" src="/assets/holzbau-schulze-logo.png" alt="Holzbau Schulze" />
+        <nav class="header-nav">
+          <a href="/holzbau-schulze">Styleguide</a>
+          <a href="/holzbau-schulze/zielgruppe">Zielgruppe</a>
+          <a href="/holzbau-schulze/strategie">SEO & AEO</a>
+          <a href="/holzbau-schulze/bilder" class="active">Bilder</a>
+        </nav>
+        <div class="header-badge">Webseiten-Konzept · Entwurf</div>
+        <button class="hamburger" id="hamburger" aria-label="Menü"><span></span><span></span><span></span></button>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav">
+        <a href="/holzbau-schulze">Styleguide</a>
+        <a href="/holzbau-schulze/zielgruppe">Zielgruppe</a>
+        <a href="/holzbau-schulze/strategie">SEO & AEO</a>
+        <a href="/holzbau-schulze/bilder" class="active">Bilder</a>
+      </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         STIL A — FREIGESTELLT
+    ═══════════════════════════════════════ -->
+    <div id="stil-a" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>A</strong> Freigestellt · Kein Hintergrund · Portrait schwebt</div>
+          <div class="vs-meta">
+            <span class="vs-code">background: transparent</span>
+            <span class="vs-badge a">Referenz</span>
+          </div>
+        </div>
+      </div>
+      <section class="hero-portrait">
+        <div class="hero-portrait-inner">
+          <div class="hero-portrait-text">
+            <div class="hero-eyebrow">Stil A · Freigestellt</div>
+            <h1 class="hero-portrait-title">Das<br>Gesicht<br>hinter<br><span style="color:var(--yellow)">dem<br>Handwerk</span></h1>
+            <p class="hero-portrait-desc">Freigestelltes Portrait — kein Rahmen, kein Hintergrund. Das Bild floated direkt auf dem Dunkel der Seite. Persönlich und direkt.</p>
+            <div class="pill-row">
+              <span class="pill y">Hintergrund entfernt</span>
+              <span class="pill y">Kein Radius</span>
+              <span class="pill g">Foto: Patricia Bachmann</span>
+            </div>
+          </div>
+          <div class="hero-portrait-figure">
+            <Image src={lukasPortrait} alt="Lukas Schulze · Holzbau Schulze Heiningen" format="avif" quality={85} width={600} />
+            <span class="hero-portrait-name">Lukas Schulze · Heiningen</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- NOTICE -->
+    <div class="notice-banner">
+      <div class="notice-inner">
+        <div class="notice-dot"></div>
+        <p class="notice-txt"><strong>5 Stilvarianten für die "Über Lukas"-Sektion</strong> — unterschiedliche Bildbehandlung, Typografie-Ansätze und Layouts. Elemente aus verschiedenen Varianten lassen sich auch kombinieren.</p>
+      </div>
+    </div>
+
+    <!-- VARIANT NAV -->
+    <nav class="variant-nav">
+      <div class="variant-nav-inner">
+        <span class="variant-nav-label">Stile</span>
+        <a href="#stil-a">A · Freigestellt</a>
+        <a href="#stil-b" class="rec">B · Stats-Leiste <span class="star">★</span></a>
+        <a href="#stil-c">C · Weich</a>
+        <a href="#stil-d">D · Cinematic</a>
+        <a href="#stil-e">E · Editorial</a>
+        <a href="#stil-f">F · Hell warm</a>
+        <a href="#stil-g">G · Hell weiß</a>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════
+         STIL B — PORTRAIT + HORIZONTALE STATS
+    ═══════════════════════════════════════ -->
+    <div id="stil-b" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>B</strong> Portrait + horizontale Stats-Leiste · Finox-inspiriert</div>
+          <div class="vs-meta">
+            <span class="vs-code">border-radius: 0</span>
+            <span class="vs-badge r">Empfohlen</span>
+          </div>
+        </div>
+      </div>
+      <section class="ab">
+        <div class="ab-grid">
+          <div class="ab-text reveal">
+            <div class="hero-eyebrow" style="margin-bottom:20px">Zimmerei · Heiningen seit 2008</div>
+            <h2 class="ab-title">Über<br>Lukas<br><em>Schulze</em></h2>
+            <p class="ab-desc">Ich bin Lukas — ausgebildeter Zimmerer aus Heiningen. Bei mir steht ehrliche Beratung vor dem großen Auftrag. Wenn ich sage, dass etwas in 3 Wochen fertig ist, dann ist es das auch.</p>
+            <a href="#kontakt" class="ab-cta">Projekt anfragen →</a>
+          </div>
+          <div class="ab-portrait reveal" style="transition-delay:.1s">
+            <Image src={p05} alt="Lukas Schulze" format="avif" quality={82} width={840} />
+            <div class="ab-name">Lukas Schulze · Heiningen</div>
+          </div>
+        </div>
+        <!-- Stats-Leiste -->
+        <div class="ab-stats reveal" style="transition-delay:.2s">
+          <div class="ab-stat">
+            <div class="ab-stat-num">4.9<span style="font-size:.4em;color:var(--mid)"> ★</span></div>
+            <div class="ab-stat-lbl">Google-Bewertung</div>
+          </div>
+          <div class="ab-stat">
+            <div class="ab-stat-num">12<span style="font-size:.45em;color:var(--mid)">+</span></div>
+            <div class="ab-stat-lbl">Kundenstimmen</div>
+          </div>
+          <div class="ab-stat">
+            <div class="ab-stat-num">15<span style="font-size:.45em;color:var(--mid)">+</span></div>
+            <div class="ab-stat-lbl">Jahre Erfahrung</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         STIL C — WEICHES GROSSES PORTRAIT
+    ═══════════════════════════════════════ -->
+    <div id="stil-c" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>C</strong> Abgerundetes Portrait · Dezenter Gelb-Akzent · Bullets</div>
+          <div class="vs-meta">
+            <span class="vs-code">border-radius: 40px</span>
+            <span class="vs-badge a">Alternativ</span>
+          </div>
+        </div>
+      </div>
+      <section class="ac">
+        <div class="ac-grid">
+          <div class="ac-img reveal">
+            <Image src={p06} alt="Lukas Schulze" format="avif" quality={82} width={800} />
+          </div>
+          <div class="ac-text reveal" style="transition-delay:.12s">
+            <div class="ac-eyebrow">Zimmerei · Heiningen</div>
+            <h2 class="ac-title">Hallo,<br>ich bin<br><em>Lukas.</em></h2>
+            <p class="ac-desc">Als Zimmerer aus Heiningen bin ich dein direkter Ansprechpartner — vom ersten Gespräch bis zur letzten Dachlatte. Keine Weitergabe, kein Durcheinander.</p>
+            <div class="ac-divider"></div>
+            <div class="ac-bullets">
+              <div class="ac-bullet"><div class="ac-dot"></div><span class="ac-bullet-txt">Ausgebildeter Zimmerer mit 15+ Jahren Erfahrung</span></div>
+              <div class="ac-bullet"><div class="ac-dot"></div><span class="ac-bullet-txt">4.9 Sterne auf Google · 12+ echte Bewertungen</span></div>
+              <div class="ac-bullet"><div class="ac-dot"></div><span class="ac-bullet-txt">Ehrliche Beratung — kein Druck, kein Upsell</span></div>
+              <div class="ac-bullet"><div class="ac-dot"></div><span class="ac-bullet-txt">Region Heiningen, Göppingen & Umgebung</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         STIL D — FULL-BLEED CINEMATIC
+    ═══════════════════════════════════════ -->
+    <div id="stil-d" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>D</strong> Cinematic · Vollflächiges Hintergrundbild · Text overlay</div>
+          <div class="vs-meta">
+            <span class="vs-code">position: absolute · full-bleed</span>
+            <span class="vs-badge a">Alternativ</span>
+          </div>
+        </div>
+      </div>
+      <section class="ad">
+        <div class="ad-bg">
+          <Image src={p04} alt="" format="avif" quality={70} width={1400} />
+        </div>
+        <div class="ad-content">
+          <div class="ad-eyebrow reveal">Zimmerei · Heiningen · Seit 2008</div>
+          <h2 class="ad-title reveal" style="transition-delay:.08s">
+            Ich baue<br>was ich<br><em>verspreche.</em>
+          </h2>
+          <div class="ad-bottom reveal" style="transition-delay:.16s">
+            <p class="ad-desc">Über 15 Jahre Dach- und Zimmererarbeit in der Region. Ich kenne jeden Dachtyp, jede Herausforderung — und ich sage dir ehrlich was mich erwartet, damit du weißt was du bekommst.</p>
+            <div class="ad-aside">
+              <p class="ad-quote-text">„Wir hatten das erste Mal wirklich das Gefühl, dass es um uns ging und nicht den größtmöglichen Profit heraus zu schlagen."</p>
+              <div class="ad-quote-auth">Google · 5 Sterne</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         STIL E — EDITORIAL SPLIT
+    ═══════════════════════════════════════ -->
+    <div id="stil-e" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>E</strong> Editorial · 50/50 Split · Stats-Raster · Ghost-Zahl</div>
+          <div class="vs-meta">
+            <span class="vs-code">border-radius: 0 · Full-height</span>
+            <span class="vs-badge a">Alternativ</span>
+          </div>
+        </div>
+      </div>
+      <section class="ae">
+        <div class="ae-grid">
+          <div class="ae-img">
+            <Image src={p05} alt="Lukas Schulze" format="avif" quality={80} width={960} />
+            <div class="ae-img-label">Lukas Schulze · Heiningen</div>
+          </div>
+          <div class="ae-content reveal">
+            <div class="ae-eyebrow">Zimmerei · Heiningen</div>
+            <h2 class="ae-title">Über<br>Lukas<br><em>Schulze</em></h2>
+            <p class="ae-desc">Zimmerer aus Heiningen — nicht weil ich musste, sondern weil ich wollte. Bei mir wird nichts versteckt. Weder der Preis, noch was ich kann und was nicht.</p>
+            <div class="ae-stats">
+              <div class="ae-stat">
+                <div class="ae-stat-num">4.9★</div>
+                <div class="ae-stat-lbl">Google-Bewertung</div>
+              </div>
+              <div class="ae-stat">
+                <div class="ae-stat-num">12+</div>
+                <div class="ae-stat-lbl">Kundenstimmen</div>
+              </div>
+              <div class="ae-stat">
+                <div class="ae-stat-num">15+</div>
+                <div class="ae-stat-lbl">Jahre Erfahrung</div>
+              </div>
+              <div class="ae-stat">
+                <div class="ae-stat-num">100%</div>
+                <div class="ae-stat-lbl">Persönlich dabei</div>
+              </div>
+            </div>
+            <a href="#kontakt" class="ae-cta">Projekt anfragen →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         STIL F — HELL · WARM · STATS-LEISTE
+    ═══════════════════════════════════════ -->
+    <div id="stil-f" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>F</strong> Hell · Warm-Off-White · Stats auf Gelb</div>
+          <div class="vs-meta">
+            <span class="vs-code">background: #f5f2eb</span>
+            <span class="vs-badge a">Hell</span>
+          </div>
+        </div>
+      </div>
+      <section class="af">
+        <div class="af-grid">
+          <div class="af-text reveal">
+            <div class="af-eyebrow">Zimmerei · Heiningen seit 2008</div>
+            <h2 class="af-title">Über<br>Lukas<br>Schulze</h2>
+            <p class="af-desc">Ich bin Lukas — ausgebildeter Zimmerer aus Heiningen. Bei mir steht ehrliche Beratung vor dem großen Auftrag. Wenn ich sage, dass etwas in 3 Wochen fertig ist, dann ist es das auch.</p>
+            <a href="#kontakt" class="af-cta">Projekt anfragen →</a>
+          </div>
+          <div class="af-portrait reveal" style="transition-delay:.1s">
+            <Image src={p05} alt="Lukas Schulze" format="avif" quality={82} width={800} />
+          </div>
+        </div>
+        <div class="af-stats reveal" style="transition-delay:.2s">
+          <div class="af-stat">
+            <div class="af-stat-num">4.9<span style="font-size:.4em;opacity:.5"> ★</span></div>
+            <div class="af-stat-lbl">Google-Bewertung</div>
+          </div>
+          <div class="af-stat">
+            <div class="af-stat-num">12<span style="font-size:.45em;opacity:.5">+</span></div>
+            <div class="af-stat-lbl">Kundenstimmen</div>
+          </div>
+          <div class="af-stat">
+            <div class="af-stat-num">15<span style="font-size:.45em;opacity:.5">+</span></div>
+            <div class="af-stat-lbl">Jahre Erfahrung</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         STIL G — WEISS · EDITORIAL CLEAN
+    ═══════════════════════════════════════ -->
+    <div id="stil-g" class="vs">
+      <div class="vs-strip">
+        <div class="vs-strip-inner">
+          <div class="vs-id"><strong>G</strong> Weiß · Editorial · Stats-Raster · Gelbe Akzente</div>
+          <div class="vs-meta">
+            <span class="vs-code">background: #ffffff</span>
+            <span class="vs-badge a">Hell</span>
+          </div>
+        </div>
+      </div>
+      <section class="ag">
+        <div class="ag-grid">
+          <div class="ag-img">
+            <Image src={p06} alt="Lukas Schulze" format="avif" quality={80} width={960} />
+            <div class="ag-img-label">Lukas Schulze · Heiningen</div>
+          </div>
+          <div class="ag-content reveal">
+            <div class="ag-eyebrow">Zimmerei · Heiningen</div>
+            <h2 class="ag-title">Über<br>Lukas<br><em>Schulze</em></h2>
+            <p class="ag-desc">Zimmerer aus Heiningen — nicht weil ich musste, sondern weil ich wollte. Bei mir wird nichts versteckt. Weder der Preis, noch was ich kann und was nicht.</p>
+            <div class="ag-divider"></div>
+            <div class="ag-stats">
+              <div class="ag-stat">
+                <div class="ag-stat-num">4.9<em>★</em></div>
+                <div class="ag-stat-lbl">Google-Bewertung</div>
+              </div>
+              <div class="ag-stat">
+                <div class="ag-stat-num">12+</div>
+                <div class="ag-stat-lbl">Kundenstimmen</div>
+              </div>
+              <div class="ag-stat">
+                <div class="ag-stat-num">15+</div>
+                <div class="ag-stat-lbl">Jahre Erfahrung</div>
+              </div>
+              <div class="ag-stat">
+                <div class="ag-stat-num">100%</div>
+                <div class="ag-stat-lbl">Persönlich dabei</div>
+              </div>
+            </div>
+            <a href="#kontakt" class="ag-cta">Projekt anfragen →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         FOTOGALERIE
+    ═══════════════════════════════════════ -->
+    <section class="gallery-section">
+      <div class="container">
+        <div class="gallery-header reveal">
+          <div class="label">Fotografie · Patricia Bachmann</div>
+          <h2>Bilder die<br>Handwerk zeigen</h2>
+          <p>25 Fotos vom Einsatz. Roh, authentisch, echt — nicht Hochglanz, sondern ehrliche Arbeit.</p>
+        </div>
+
+        <div class="featured-pair reveal" style="transition-delay:.1s">
+          <div class="featured-pair-item" style="aspect-ratio:3/2" data-lightbox-idx="0">
+            <Image src={featuredPhotos[0]} alt="Holzbau Schulze – Dacharbeit" format="avif" quality={82} width={740} loading="eager" />
+            <div class="featured-caption">
+              <div class="featured-caption-label">Hauptbild</div>
+              <div class="featured-caption-text">Handwerk auf dem Dach</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="featured-pair-item" style="flex:1" data-lightbox-idx="1">
+              <Image src={featuredPhotos[1]} alt="Holzbau Schulze" format="avif" quality={82} width={520} loading="eager" />
+            </div>
+            <div class="featured-pair-item" style="flex:1" data-lightbox-idx="2">
+              <Image src={featuredPhotos[2]} alt="Holzbau Schulze" format="avif" quality={82} width={520} loading="eager" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MASONRY -->
+    <section style="padding:0 0 88px;border-top:1px solid var(--dark-3)">
+      <div class="container" style="padding-top:52px">
+        <div class="gallery-grid" id="gallery">
+          {galleryPhotos.map((photo, i) => (
+            <div class="gallery-item" data-lightbox-idx={i + 3}>
+              <Image src={photo} alt={`Holzbau Schulze – Foto ${i + 7}`} format="avif" quality={75} width={480} loading="lazy" />
+              <div class="gallery-item-overlay">
+                <span class="gallery-item-num">{String(i + 7).padStart(2, '0')}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style="margin-top:72px" class="reveal">
+          <div class="label">Hinweis zur Verwendung</div>
+          <h2>Fotos auf<br>der Webseite</h2>
+          <p>Diese Bilder sind das stärkste Argument für Holzbau Schulze. Echte Projekte — keine Stock-Fotos.</p>
+          <div class="notes-grid" style="margin-top:32px">
+            <div class="note-card y">
+              <div class="note-title">Hero-Bereich</div>
+              <div class="note-text">Drohnenfoto als Hintergrundbild des ersten Seitenbereichs. Wirkt sofort.</div>
+            </div>
+            <div class="note-card">
+              <div class="note-title">Leistungsseiten</div>
+              <div class="note-text">Pro Leistung 2–3 Fotos direkt neben dem Text. Echte Arbeit statt Beschreibungen.</div>
+            </div>
+            <div class="note-card">
+              <div class="note-title">Referenzen</div>
+              <div class="note-text">Eigene Seite mit allen Projekten, sortiert nach Kategorie.</div>
+            </div>
+            <div class="note-card">
+              <div class="note-title">Über Lukas</div>
+              <div class="note-text">Portrait + Arbeitsfotos — zeigt Lukas als Person, nicht nur als Betrieb.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-text">Konzept erstellt von Christian Bachmann · christian-bachmann.com</div>
+        <div class="footer-note">Fotos: Patricia Bachmann · Entwurf 2026</div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lb-close">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lb-prev">‹</button>
+    <img class="lightbox-img" id="lb-img" src="" alt="" />
+    <button class="lightbox-nav lightbox-next" id="lb-next">›</button>
+    <div class="lightbox-counter" id="lb-counter"></div>
+  </div>
+
+  <script>
+    // Gate
+    const gate = document.getElementById('gate')!;
+    const form = document.getElementById('gate-form')!;
+    const input = document.getElementById('pw-input') as HTMLInputElement;
+    const error = document.getElementById('gate-error')!;
+    if (sessionStorage.getItem('schulze_access') === '1') gate.classList.add('hidden');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      if (input.value.toLowerCase() === 'schulze') {
+        sessionStorage.setItem('schulze_access','1'); gate.classList.add('hidden'); error.classList.remove('visible');
+      } else { error.classList.add('visible'); input.value=''; input.focus(); }
+    });
+
+    // Hamburger
+    const hbg = document.getElementById('hamburger')!;
+    const mnav = document.getElementById('mobile-nav')!;
+    hbg.addEventListener('click', () => { hbg.classList.toggle('open'); mnav.classList.toggle('open'); });
+    mnav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbg.classList.remove('open'); mnav.classList.remove('open'); }));
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add('in'); ro.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => ro.observe(el));
+
+    // Variant nav highlight
+    const sections = ['stil-a','stil-b','stil-c','stil-d','stil-e'];
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('.variant-nav a');
+    const so = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => { a.style.color=''; a.style.borderBottomColor=''; });
+          const a = document.querySelector<HTMLAnchorElement>(`.variant-nav a[href="#${e.target.id}"]`);
+          if (a) { a.style.color='var(--cream)'; a.style.borderBottomColor='var(--dark-4)'; }
+        }
+      });
+    }, { threshold: 0.25 });
+    sections.forEach(id => { const el = document.getElementById(id); if (el) so.observe(el); });
+
+    // Lightbox
+    const lb = document.getElementById('lightbox')!;
+    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+    const lbCtr = document.getElementById('lb-counter')!;
+    const lbClose = document.getElementById('lb-close')!;
+    const lbPrev = document.getElementById('lb-prev')!;
+    const lbNext = document.getElementById('lb-next')!;
+    const imgs = [...document.querySelectorAll<HTMLImageElement>('[data-lightbox-idx] img')].map(i => ({src:i.src,alt:i.alt}));
+    let idx = 0;
+    const open = (i: number) => { idx=i; lbImg.src=imgs[i].src; lbImg.alt=imgs[i].alt; lbCtr.textContent=`${i+1} / ${imgs.length}`; lb.classList.add('open'); document.body.style.overflow='hidden'; };
+    const close = () => { lb.classList.remove('open'); document.body.style.overflow=''; };
+    const prev = () => { idx=(idx-1+imgs.length)%imgs.length; lbImg.src=imgs[idx].src; lbCtr.textContent=`${idx+1} / ${imgs.length}`; };
+    const next = () => { idx=(idx+1)%imgs.length; lbImg.src=imgs[idx].src; lbCtr.textContent=`${idx+1} / ${imgs.length}`; };
+    document.querySelectorAll('[data-lightbox-idx]').forEach(el => el.addEventListener('click', () => open(parseInt((el as HTMLElement).dataset.lightboxIdx??'0',10))));
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click', prev);
+    lbNext.addEventListener('click', next);
+    lb.addEventListener('click', e => { if (e.target===lb) close(); });
+    document.addEventListener('keydown', e => { if (!lb.classList.contains('open')) return; if (e.key==='Escape') close(); if (e.key==='ArrowLeft') prev(); if (e.key==='ArrowRight') next(); });
+  </script>
+
+</body>
+</html>
