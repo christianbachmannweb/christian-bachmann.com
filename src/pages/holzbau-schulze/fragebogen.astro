@@ -650,7 +650,7 @@
             status,
             progress: state.currentIndex,
             total: TOTAL,
-            answers: state.answers
+            ...state.answers
           })
         });
         showSaveStatus('saved');
